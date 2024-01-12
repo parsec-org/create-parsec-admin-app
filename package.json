@@ -1,6 +1,13 @@
 {
+  "name": "parsec-app",
+  "version": "1.0.0",
   "private": true,
-  "author": "Yanghc <hqwlkj@parsec.com.cn>",
+  "author": "{{author}}",
+  "description": "{{description}}",
+  "repository": {
+    "type": "git",
+    "url": "{{git}}"
+  },
   "scripts": {
     "build": "max build",
     "build:production": "UMI_ENV=production max build",
