@@ -1,5 +1,3 @@
-// @ts-ignore
-/* eslint-disable */
 import { request } from '@umijs/max';
 
 /** 当前登录用户的详细信息 需要自行扩展 GET /auth/me */
