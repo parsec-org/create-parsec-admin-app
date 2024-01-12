@@ -1,0 +1,139 @@
+// 后期将采用 css-in-js 的方式替换
+@import './components/ProFormEditor/Editor/index.less';
+@import './components/ProFormCropUpload/index.less';
+
+html, body {
+  margin: 0 auto;
+  padding: 0;
+}
+
+//调整登录页的样式
+.ant-pro-form-login-page {
+  .ant-pro-form-login-page-container {
+    padding-block-start: 200px;
+    height: auto;
+
+    .ant-pro-form-login-page-top {
+      width: 328px;
+      margin: 0 auto;
+      text-align: left;
+
+      .ant-pro-form-login-page-header {
+        justify-content: flex-start;
+      }
+
+      .ant-pro-form-login-page-desc {
+        color: #333;
+      }
+    }
+  }
+}
+
+/* 重写 nprogress 样式 start */
+
+#nprogress {
+  pointer-events: none;
+
+  .bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1031;
+    width: 100%;
+    height: 2px;
+    background: @primary-color;
+  }
+
+  /* Fancy blur effect */
+
+  .peg {
+    position: absolute;
+    right: 0;
+    display: block;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px @primary-color, 0 0 5px @primary-color;
+    transform: rotate(3deg) translate(0, -4px);
+    opacity: 1;
+  }
+
+  /* Remove these to get rid of the spinner */
+
+  .spinner {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1031;
+    display: block;
+  }
+
+  .spinner-icon {
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    border: solid 2px transparent;
+    border-top-color: @primary-color;
+    border-left-color: @primary-color;
+    border-radius: 50%;
+    animation: nprogress-spinner 400ms linear infinite;
+  }
+}
+
+.nprogress-custom-parent {
+  position: relative;
+  overflow: hidden;
+
+  #nprogress {
+    .spinner,
+    .bar {
+      position: absolute;
+    }
+  }
+}
+
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes nprogress-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  .ant-pro-form-login-page-container {
+    max-width: 468px;
+  }
+}
+
+.map-content-warp {
+  position: relative;
+  margin-bottom: 24px;
+
+  .map-content {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    overflow: hidden;
+    border: 1px solid #d9d9d9;
+    border-radius: @border-radius-base;
+
+    &:hover {
+      border-color: @primary-color;
+      border-right-width: 1px;
+      outline: 0;
+      box-shadow: 0 0 0 2px rgb(233 101 42 / 20%);
+    }
+  }
+}

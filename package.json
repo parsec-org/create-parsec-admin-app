@@ -1,0 +1,62 @@
+{
+  "private": true,
+  "author": "Yanghc <hqwlkj@parsec.com.cn>",
+  "scripts": {
+    "build": "max build",
+    "build:production": "UMI_ENV=production max build",
+    "build:staging": "UMI_ENV=staging max build",
+    "dev": "max dev",
+    "dev:staging": "UMI_ENV=staging max dev",
+    "format": "prettier --cache --write .",
+    "postinstall": "max setup",
+    "openapi": "ts-node openapi.config.ts",
+    "prepare": "husky install",
+    "setup": "max setup",
+    "start": "yarn dev"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
+    ]
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "dependencies": {
+    "@ant-design/icons": "^4.8.0",
+    "@ant-design/pro-components": "^2.3.34",
+    "@pansy/china-division": "^2.0.0",
+    "@umijs/max": "^4.0.32",
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-react": "^1.0.6",
+    "ahooks": "^3.7.2",
+    "antd": "^4.24.4",
+    "classnames": "^2.3.2",
+    "dayjs": "^1.11.6",
+    "file-saver": "^2.0.5",
+    "js-export-excel": "^1.1.4",
+    "less-loader": "^11.1.0",
+    "nprogress": "^0.2.0",
+    "qs": "^6.11.0",
+    "react-easy-crop": "^4.6.2",
+    "vstores": "^0.0.7"
+  },
+  "devDependencies": {
+    "@types/file-saver": "^2.0.5",
+    "@types/nprogress": "^0.2.0",
+    "@types/qs": "^6.9.7",
+    "@types/react": "^18.0.25",
+    "@types/react-dom": "^18.0.9",
+    "@umijs/openapi": "^1.8.0",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1",
+    "prettier-plugin-organize-imports": "^2",
+    "prettier-plugin-packagejson": "^2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  }
+}
