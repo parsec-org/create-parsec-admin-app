@@ -18,8 +18,15 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/antd#antd
    */
   antd: {
+    // configProvider
+    configProvider: {},
     // babel-plugin-import
-    import: true,
+    import: false,
+    // less or css, default less
+    style: 'less',
+    // shortcut of `configProvider.theme`
+    // use to configure theme token, antd v5 only
+    theme: {},
   },
   /**
    * @name 权限插件
@@ -65,12 +72,11 @@ export default defineConfig({
   metas: [
     {
       name: 'keywords',
-      content:
-        'parsec,parsec-admin,parsec-admin-next,秒差距中后台管理系统',
+      content: 'parsec,parsec-admin,parsec-admin-next,秒差距中后台管理系统',
     },
     { name: 'description', content: '秒差距中后台管理系统.' },
   ],
   // links: [{href: 'https://unpkg.com/nprogress@0.2.0/nprogress.css', rel: 'stylesheet', type:"text/css" }] // 样式需要重写所以禁用了
   scripts: [],
-  favicons: ['/assets/parsec-logo.svg']
+  favicons: ['/assets/parsec-logo.svg'],
 });

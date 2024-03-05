@@ -1,14 +1,14 @@
+import { modifyCurrentLoginPwd } from '@/services';
 import {
   PageContainer,
   ProForm,
   ProFormText,
 } from '@ant-design/pro-components';
 import { message } from 'antd';
-import { modifyCurrentLoginPwd } from '@/services';
 
 export default () => {
   const formItemLayout = {
-    labelCol: { span: 4 },
+    labelCol: { span: 6 },
     wrapperCol: { span: 24 },
   };
 

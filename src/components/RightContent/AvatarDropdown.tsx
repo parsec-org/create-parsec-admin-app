@@ -1,13 +1,12 @@
+import { waitTime } from '@/utils';
 import { LockOutlined, LogoutOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
-import { Avatar, Menu, Spin } from 'antd';
+import { Avatar, Dropdown, Spin } from 'antd';
+import type { ItemType } from 'antd/es/menu/hooks/useItems';
+import NProgress from 'nprogress';
 import { stringify } from 'querystring';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
-import NProgress from 'nprogress';
-import HeaderDropdown from '../HeaderDropdown';
-import { waitTime } from '@/utils';
-import type {ItemType} from "antd/es/menu/hooks/useItems";
 import styles from './index.less';
 
 export type GlobalHeaderRightProps = {
@@ -102,17 +101,15 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
     },
   ];
 
-  const menuHeaderDropdown = (
-    <Menu
-      className={styles.menu}
-      selectedKeys={[]}
-      onClick={onMenuClick}
-      items={menuItems}
-    />
-  );
-
   return (
-    <HeaderDropdown overlay={menuHeaderDropdown}>
+    <Dropdown
+      menu={{
+        items: menuItems,
+        onClick: onMenuClick,
+        selectedKeys: [],
+        className: styles.menu,
+      }}
+    >
       <span className={`${styles.action} ${styles.account}`}>
         <Avatar
           size="small"
@@ -122,7 +119,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu }) => {
         />
         <span className={`${styles.name} anticon`}>{currentUser.name}</span>
       </span>
-    </HeaderDropdown>
+    </Dropdown>
   );
 };
 

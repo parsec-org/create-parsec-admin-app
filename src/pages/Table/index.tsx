@@ -174,7 +174,7 @@ const TableList: React.FC<unknown> = () => {
             success,
           };
         }}
-        columns={columns}
+        columns={columns as any}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
@@ -217,7 +217,7 @@ const TableList: React.FC<unknown> = () => {
           }}
           rowKey="id"
           type="form"
-          columns={columns}
+          columns={columns as any}
         />
       </CreateForm>
       {stepFormValues && Object.keys(stepFormValues).length ? (
@@ -243,7 +243,7 @@ const TableList: React.FC<unknown> = () => {
 
       <Drawer
         width={600}
-        visible={!!row}
+        open={!!row}
         onClose={() => {
           setRow(undefined);
         }}

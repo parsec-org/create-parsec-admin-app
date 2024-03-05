@@ -1,19 +1,19 @@
-import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history } from '@umijs/max';
+import logo from '@/assets/parsec-logo.svg';
+import { RightContent } from '@/components';
+import { TOKEN } from '@/constants';
+import { getAuthRules } from '@/services';
+import storage from '@/utils/storage';
 import type {
-  MenuDataItem,
   Settings as LayoutSettings,
+  MenuDataItem,
 } from '@ant-design/pro-components';
 import { PageLoading } from '@ant-design/pro-components';
-import { RightContent } from '@/components';
-import { requestConfig } from './requestConfig';
 import { SettingDrawer } from '@ant-design/pro-layout';
-import NProgress from 'nprogress';
+import type { RunTimeLayoutConfig } from '@umijs/max';
+import { history } from '@umijs/max';
 import dayjs from 'dayjs';
-import logo from '@/assets/parsec-logo.svg';
-import storage from '@/utils/storage';
-import { TOKEN } from '@/constants';
-import { getAuthMe, getAuthRules } from '@/services';
+import NProgress from 'nprogress';
+import { requestConfig } from './requestConfig';
 
 dayjs.locale('zh-cn'); // use loaded locale globally
 
@@ -29,8 +29,8 @@ const defaultSettings: Partial<LayoutSettings> = {
   contentWidth: 'Fluid',
   navTheme: 'light',
   splitMenus: false,
-  colorPrimary: "#1677FF",
-  siderMenuType: "sub"
+  colorPrimary: '#1677FF',
+  siderMenuType: 'sub',
 };
 
 // 运行时配置
@@ -48,11 +48,15 @@ export async function getInitialState(): Promise<{
     try {
       // TODO: 模拟登录正式请删除
       // const { data } = await getAuthMe({});
-      const data ={adminName: 'adminName', realName: 'realName', loginName:'loginName'}
+      const data = {
+        adminName: 'adminName',
+        realName: 'realName',
+        loginName: 'loginName',
+      };
       return {
         ...data,
         name: data?.adminName || data?.realName || data?.loginName || '',
-        avatar: '',
+        avatar: undefined,
       };
     } catch (error) {
       history.push(loginPath);
@@ -134,7 +138,7 @@ export const layout: RunTimeLayoutConfig = ({
             paddingBlockStart: 12,
           }}
         >
-          <div>© 2022 Made with love</div>
+          <div>© 2024 Made with love</div>
           <div>by Parsec.com.cn</div>
         </div>
       );
@@ -144,7 +148,9 @@ export const layout: RunTimeLayoutConfig = ({
     //   size: 'small',
     //   title: initialState?.currentUser?.adminName,
     // },
-    rightContentRender: (headerProps, dom, props) => <RightContent showAvatarDropdown headerProps={headerProps}/>,
+    rightContentRender: (headerProps) => (
+      <RightContent showAvatarDropdown headerProps={headerProps} />
+    ),
     bgLayoutImgList: [
       {
         src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
@@ -170,7 +176,7 @@ export const layout: RunTimeLayoutConfig = ({
     onPageChange: (location) => {
       NProgress.done();
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      if (!initialState?.currentUser && location?.pathname !== loginPath) {
         history.push(loginPath);
       }
     },
