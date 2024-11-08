@@ -26,7 +26,8 @@ export default [
     path: '/access',
     icon: 'SafetyOutlined',
     component: './Access',
-  },{
+  },
+  {
     name: '数据列表',
     path: '/table',
     icon: 'TableOutlined',

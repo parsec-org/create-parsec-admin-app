@@ -1,9 +1,9 @@
+import { TOKEN } from '@/constants';
+import storage from '@/utils/storage';
 import type { RequestOptions } from '@@/plugin-request/request';
 import type { RequestConfig } from '@umijs/max';
 import { history } from '@umijs/max';
 import { message, Modal } from 'antd';
-import storage from '@/utils/storage';
-import { TOKEN } from '@/constants';
 import { stringify } from 'querystring';
 
 // 错误处理方案： 错误类型

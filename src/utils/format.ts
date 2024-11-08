@@ -1,5 +1,5 @@
-import type { UploadFile, UploadProps } from 'antd';
 import previewImage from '@/utils/previewImage';
+import type { UploadFile, UploadProps } from 'antd';
 
 // 示例方法，没有实际意义
 export function trim(str: string) {

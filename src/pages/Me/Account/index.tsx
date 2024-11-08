@@ -1,3 +1,4 @@
+import { getAuthMe, getManageRoleList, modifyAdminUserInfo } from '@/services';
 import {
   PageContainer,
   ProCard,
@@ -9,12 +10,11 @@ import {
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
-import React, { useCallback } from 'react';
 import CascaderOptions from '@pansy/china-division';
+import { useModel } from '@umijs/max';
 import { useRequest, useToggle } from 'ahooks';
 import { Button, Form, message } from 'antd';
-import { useModel } from '@umijs/max';
-import { getAuthMe, getManageRoleList, modifyAdminUserInfo } from '@/services';
+import { useCallback } from 'react';
 
 export default () => {
   const { initialState, setInitialState } = useModel('@@initialState');

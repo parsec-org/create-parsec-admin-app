@@ -1,16 +1,16 @@
+import logo from '@/assets/parsec-logo.svg';
+import { TOKEN } from '@/constants';
+import { authLogin, getPublicAuthCode } from '@/services';
+import storage from '@/utils/storage';
 import { CodeOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import {
   LoginFormPage,
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
-import { Image, message, Spin } from 'antd';
 import { Link, useModel } from '@umijs/max';
 import { useRequest, useTitle } from 'ahooks';
-import { authLogin, getPublicAuthCode } from '@/services';
-import { TOKEN } from '@/constants';
-import storage from '@/utils/storage';
-import logo from '@/assets/parsec-logo.svg';
+import { Image, message, Spin } from 'antd';
 import NProgress from 'nprogress';
 
 export default () => {
@@ -43,7 +43,11 @@ export default () => {
     });
     // TODO: 模拟登录正式请删除
     console.log('loginRes', loginRes);
-    storage.set(TOKEN, loginRes?.data || 'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJScszJTUysUtJRSixNAXINgazi0iSQhIuvpx-Ql1pRoGRlaGZmbmlhbGpqUAsAX7_vLzkAAAA.68vkT7Pf2-N0maYVuVvUF_I4-R_sTmAcGjtmzBSrpSXj6_D4qOzc57StHZBMEPhuJS-fQ6atVA8Pv6na6qHJmQ');
+    storage.set(
+      TOKEN,
+      loginRes?.data ||
+        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJScszJTUysUtJRSixNAXINgazi0iSQhIuvpx-Ql1pRoGRlaGZmbmlhbGpqUAsAX7_vLzkAAAA.68vkT7Pf2-N0maYVuVvUF_I4-R_sTmAcGjtmzBSrpSXj6_D4qOzc57StHZBMEPhuJS-fQ6atVA8Pv6na6qHJmQ',
+    );
     window.location.replace('/');
     return;
     if (loginRes) {
@@ -69,7 +73,9 @@ export default () => {
   return (
     <div style={{ backgroundColor: 'white', height: '100vh' }}>
       <LoginFormPage
-        backgroundImageUrl={'https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png'}
+        backgroundImageUrl={
+          'https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png'
+        }
         logo={logo}
         title={(<span>HI~</span>) as any}
         subTitle="欢迎使用秒差距中后台管理系统"

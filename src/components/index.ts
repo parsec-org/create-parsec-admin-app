@@ -22,8 +22,8 @@ export { default as ProFormEditor } from './ProFormEditor';
 /**
  * 富文本编辑器
  */
-export { default as Editor } from './ProFormEditor/Editor';
 export { default as CreateForm } from './CreateForm';
+export { default as Editor } from './ProFormEditor/Editor';
 /**
  * 图片上传裁剪组件
  */

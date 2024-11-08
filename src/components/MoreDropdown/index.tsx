@@ -1,8 +1,7 @@
-import React from 'react';
+import { DownOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import { DropDownProps } from 'antd/lib/dropdown';
 import LinkButton from '../LinkButton';
-import { DownOutlined } from '@ant-design/icons';
 
 export default (props: DropDownProps) => (
   <Dropdown {...props}>

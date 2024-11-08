@@ -38,7 +38,6 @@ export async function modifyCurrentLoginPwd(
   });
 }
 
-
 /** 当前登录管理员权限路由列表 如果是系统内置超级管理员admin,则返回空数组,不受系统角色管理控制 GET /auth/rules */
 export async function getAuthRules(options?: { [key: string]: any }) {
   return request<API.AuthRuleListItem[]>('/auth/rules', {
@@ -54,8 +53,6 @@ export async function getPublicAuthCode(options?: { [key: string]: any }) {
     ...(options || {}),
   });
 }
-
-
 
 /** 忘记密码 POST /public/forget/pwd */
 export async function postPublicForgetPwd(
@@ -96,7 +93,7 @@ export async function authLogin(
 }
 
 /** 获取短信验证码 阿里云短信服务 POST /public/sms/auth/code */
-export async function getSmsAuthCode (
+export async function getSmsAuthCode(
   body: {
     /** 手机号 */
     phone: string;
@@ -107,19 +104,15 @@ export async function getSmsAuthCode (
   },
   options?: { [key: string]: any },
 ) {
-  return request<API.ComObject>(
-    '/public/sms/auth/code',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: body,
-      ...(options || {}),
+  return request<API.ComObject>('/public/sms/auth/code', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    data: body,
+    ...(options || {}),
+  });
 }
-
 
 /** 角色列表 GET /manage/role/list */
 export async function getManageRoleList(options?: { [key: string]: any }) {

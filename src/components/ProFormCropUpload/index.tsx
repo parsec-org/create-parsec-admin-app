@@ -1,18 +1,3 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import type { UploadProps } from 'antd';
-import { Button, Col, Modal, Row, Slider, Space, Upload } from 'antd';
-import type {
-  ProFormUploadButtonProps,
-  ProFormUploadDraggerProps,
-} from '@ant-design/pro-components';
-import {
-  ProCard,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-} from '@ant-design/pro-components';
-import Cropper from 'react-easy-crop';
-import type { CropperProps } from 'react-easy-crop';
-import type { RcFile } from 'antd/es/upload';
 import {
   INIT_ROTATE,
   INIT_ZOOM,
@@ -29,6 +14,21 @@ import {
   RedoOutlined,
   UndoOutlined,
 } from '@ant-design/icons';
+import type {
+  ProFormUploadButtonProps,
+  ProFormUploadDraggerProps,
+} from '@ant-design/pro-components';
+import {
+  ProCard,
+  ProFormUploadButton,
+  ProFormUploadDragger,
+} from '@ant-design/pro-components';
+import type { UploadProps } from 'antd';
+import { Button, Col, Modal, Row, Slider, Space, Upload } from 'antd';
+import type { RcFile } from 'antd/es/upload';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
+import type { CropperProps } from 'react-easy-crop';
+import Cropper from 'react-easy-crop';
 import { Area, Point } from 'react-easy-crop/types';
 
 const ProFormCropUpload: React.FC<

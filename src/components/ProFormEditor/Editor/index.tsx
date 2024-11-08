@@ -1,15 +1,15 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Editor, Toolbar } from '@wangeditor/editor-for-react';
+import { TOKEN } from '@/constants'; // 引入 css
+import storage from '@/utils/storage';
 import type {
   IDomEditor,
   IEditorConfig,
   IToolbarConfig,
 } from '@wangeditor/editor';
+import { Editor, Toolbar } from '@wangeditor/editor-for-react';
+import '@wangeditor/editor/dist/css/style.css';
 import type { RcFile } from 'antd/lib/upload/interface';
 import classNames from 'classnames';
-import '@wangeditor/editor/dist/css/style.css';
-import storage from '@/utils/storage';
-import { TOKEN } from '@/constants'; // 引入 css
+import React, { useEffect, useMemo, useState } from 'react';
 
 type InsertFnType = (url: string, alt?: string, href?: string) => void;
 
