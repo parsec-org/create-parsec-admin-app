@@ -3,8 +3,8 @@ import routes from './routes';
 
 export default defineConfig({
   define: {
-    APP_STORAGE_PREFIX: 'parsec-admin', // 缓存前缀
-    APP_API_HOST: 'http://127.0.0.1:3000', // mock 地址一般是 apifox 本地测试环境地址
+    APP_STORAGE_PREFIX: process.env.APP_STORAGE_PREFIX || 'parsec-admin', // 缓存前缀
+    APP_API_HOST: process.env.APP_STORAGE_PREFIX, // mock 地址一般是 apifox 本地测试环境地址
   },
   /**
    * @name 快速热更新配置
