@@ -1,5 +1,5 @@
 import logo from '@/assets/parsec-logo.svg';
-import { RightContent } from '@/components';
+import { AvatarDropdown } from '@/components';
 import { TOKEN } from '@/constants';
 import { getAuthRules } from '@/services';
 import storage from '@/utils/storage';
@@ -25,11 +25,11 @@ const loginPath = '/auth/login';
 const defaultSettings: Partial<LayoutSettings> = {
   fixSiderbar: true,
   fixedHeader: true,
-  layout: 'mix',
+  layout: 'side',
   contentWidth: 'Fluid',
   navTheme: 'light',
   splitMenus: false,
-  colorPrimary: '#1677FF',
+  colorPrimary: '#2F54EB',
   siderMenuType: 'sub',
 };
 
@@ -52,6 +52,7 @@ export async function getInitialState(): Promise<{
         adminName: 'adminName',
         realName: 'realName',
         loginName: 'loginName',
+        roleId: 1,
       };
       return {
         ...data,
@@ -138,19 +139,19 @@ export const layout: RunTimeLayoutConfig = ({
             paddingBlockStart: 12,
           }}
         >
-          <div>© 2024 Made with love</div>
+          <div>© 2025 Made with love</div>
           <div>by Parsec.com.cn</div>
         </div>
       );
     },
-    // avatarProps: {
-    //   src: initialState?.currentUser?.avatar,
-    //   size: 'small',
-    //   title: initialState?.currentUser?.adminName,
-    // },
-    rightContentRender: (headerProps) => (
-      <RightContent showAvatarDropdown headerProps={headerProps} />
-    ),
+    avatarProps: {
+      src: initialState?.currentUser?.avatar || logo,
+      size: 'small',
+      title: initialState?.currentUser?.adminName,
+      render: (props, dom) => {
+        return <AvatarDropdown menu>{dom}</AvatarDropdown>;
+      },
+    },
     bgLayoutImgList: [
       {
         src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',

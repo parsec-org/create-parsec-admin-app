@@ -4,7 +4,7 @@ import routes from './routes';
 export default defineConfig({
   define: {
     APP_STORAGE_PREFIX: process.env.APP_STORAGE_PREFIX || 'parsec-admin', // 缓存前缀
-    APP_API_HOST: process.env.APP_STORAGE_PREFIX, // mock 地址一般是 apifox 本地测试环境地址
+    APP_API_HOST: process.env.APP_API_HOST, // mock 地址一般是 apifox 本地测试环境地址
   },
   /**
    * @name 快速热更新配置
@@ -19,14 +19,38 @@ export default defineConfig({
    */
   antd: {
     // configProvider
-    configProvider: {},
+    configProvider: {
+      prefixCls: 'parsec',
+      iconPrefixCls: 'parsec-icon',
+    },
     // babel-plugin-import
     import: false,
     // less or css, default less
     style: 'less',
     // shortcut of `configProvider.theme`
     // use to configure theme token, antd v5 only
-    theme: {},
+    theme: {
+      token: {
+        // Seed Token，影响范围大
+        colorPrimary: '#2F54EB',
+        colorInfo: '#2F54EB',
+        borderRadius: 6,
+        colorLink: '#2F54EB',
+
+        // 派生变量，影响范围小
+        colorBgContainer: '#ffffff',
+      },
+      components: {},
+    },
+    // antd <App /> valid for version 5.1.0 or higher, default: undefined
+    appConfig: {},
+    // Transform DayJS to MomentJS
+    // momentPicker: true,
+    // Add StyleProvider for legacy browsers
+    styleProvider: {
+      hashPriority: 'high',
+      legacyTransformer: true,
+    },
   },
   /**
    * @name 权限插件
@@ -61,9 +85,9 @@ export default defineConfig({
   },
   theme: {
     // 自定义antd组件的全局样式
-    'primary-color': '#1677ff', // 全局主色
-    'link-color': '#1677ff', // 链接色
-    'border-radius-base': '8px', // 组件/浮层圆角
+    'primary-color': '#2F54EB', // 全局主色
+    'link-color': '#2F54EB', // 链接色
+    'border-radius-base': '6px', // 组件/浮层圆角
     'checkbox-border-radius': '4px', // checkbox 圆角
   },
   routes: routes,
