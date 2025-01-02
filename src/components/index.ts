@@ -1,7 +1,7 @@
 /**
- * 全局header
+ * 全局与Layout相关的组件
  */
-export { default as RightContent } from './RightContent';
+export * from './Layout';
 /**
  * 列表操作项，超过3个会隐藏多余的
  */
