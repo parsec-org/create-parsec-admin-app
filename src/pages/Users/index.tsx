@@ -140,11 +140,7 @@ const TableList: React.FC<unknown> = () => {
   ];
 
   return (
-    <PageContainer
-      header={{
-        title: 'CRUD 示例',
-      }}
-    >
+    <PageContainer>
       <ProTable<API.UserInfo>
         headerTitle="查询表格"
         actionRef={actionRef}

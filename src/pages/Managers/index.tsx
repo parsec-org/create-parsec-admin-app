@@ -1,13 +1,14 @@
+import { ActionsWrap, LinkButton } from '@/components';
 import services from '@/services/demo';
 import {
   ActionType,
   FooterToolbar,
   PageContainer,
+  ProColumns,
   ProDescriptions,
-  ProDescriptionsItemProps,
   ProTable,
 } from '@ant-design/pro-components';
-import { Button, Divider, Drawer, message } from 'antd';
+import { Button, Drawer, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
@@ -87,14 +88,14 @@ const TableList: React.FC<unknown> = () => {
   const [updateModalVisible, handleUpdateModalVisible] =
     useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
-  const actionRef = useRef<ActionType>(null);
+  const actionRef = useRef<ActionType>();
   const [row, setRow] = useState<API.UserInfo>();
   const [selectedRowsState, setSelectedRows] = useState<API.UserInfo[]>([]);
-  const columns: ProDescriptionsItemProps<API.UserInfo>[] = [
+  const columns: ProColumns<API.UserInfo>[] = [
     {
       title: '名称',
       dataIndex: 'name',
-      tooltip: '名称是唯一的 key',
+      tooltip: '名称是唯一的 key test',
       formItemProps: {
         rules: [
           {
@@ -110,6 +111,11 @@ const TableList: React.FC<unknown> = () => {
       valueType: 'text',
     },
     {
+      title: '角色',
+      dataIndex: 'roleName',
+      valueType: 'text',
+    },
+    {
       title: '性别',
       dataIndex: 'gender',
       hideInForm: true,
@@ -122,29 +128,35 @@ const TableList: React.FC<unknown> = () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
+      width: 180,
       render: (_, record) => (
-        <>
+        <ActionsWrap>
+          <LinkButton
+            onClick={() => {
+              setRow(record);
+            }}
+          >
+            查看
+          </LinkButton>
           <a
             onClick={() => {
               handleUpdateModalVisible(true);
               setStepFormValues(record);
             }}
           >
-            配置
+            权限
           </a>
-          <Divider type="vertical" />
-          <a href="">订阅警报</a>
-        </>
+          <a href="">修改</a>
+          <a href="">删除</a>
+          <a href="">禁用</a>
+          <a href="">启用</a>
+        </ActionsWrap>
       ),
     },
   ];
 
   return (
-    <PageContainer
-      header={{
-        title: 'CRUD 示例',
-      }}
-    >
+    <PageContainer>
       <ProTable<API.UserInfo>
         headerTitle="查询表格"
         actionRef={actionRef}
@@ -198,7 +210,7 @@ const TableList: React.FC<unknown> = () => {
           >
             批量删除
           </Button>
-          <Button type="primary">批量审批</Button>
+          <Button type="primary">批量禁用</Button>
         </FooterToolbar>
       )}
       <CreateForm
@@ -242,7 +254,7 @@ const TableList: React.FC<unknown> = () => {
       ) : null}
 
       <Drawer
-        width={600}
+        width={'40%'}
         open={!!row}
         onClose={() => {
           setRow(undefined);
@@ -252,14 +264,14 @@ const TableList: React.FC<unknown> = () => {
         {row?.name && (
           <ProDescriptions<API.UserInfo>
             column={2}
-            title={row?.name}
+            title={`${row?.name} 的详情信息`}
             request={async () => ({
               data: row || {},
             })}
             params={{
               id: row?.name,
             }}
-            columns={columns}
+            columns={columns as any}
           />
         )}
       </Drawer>

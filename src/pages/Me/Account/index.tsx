@@ -14,7 +14,7 @@ import CascaderOptions from '@pansy/china-division';
 import { useModel } from '@umijs/max';
 import { useRequest, useToggle } from 'ahooks';
 import { Button, Form, message } from 'antd';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export default () => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -23,6 +23,11 @@ export default () => {
     cacheKey: 'role-options-data',
   });
   const [editable, { toggle: setEditable }] = useToggle<boolean>(true);
+
+  const isDisabledFiled = useMemo(
+    () => initialState?.currentUser?.roleId === 1 && editable,
+    [editable, initialState?.currentUser?.roleId],
+  );
 
   /**
    * 同步更新数据
@@ -86,6 +91,7 @@ export default () => {
             }}
             request={useCallback(async () => {
               const { data } = await getAuthMe({});
+              console.log('data', data);
               return {
                 ...data,
                 state: `${data?.state || false}`,
@@ -96,13 +102,13 @@ export default () => {
               <ProFormText name="id" />
             </div>
             <ProFormText
-              name="adminName"
+              name="nickName"
               label="用户名"
               rules={[{ required: true, message: '请输入用户名' }]}
               placeholder="请输入用户名"
             />
             <ProFormText
-              name="realName"
+              name="name"
               label="真实姓名"
               rules={[{ required: true, message: '请输入真实姓名' }]}
               placeholder="请输入真实姓名"
@@ -126,7 +132,7 @@ export default () => {
             <ProFormSegmented
               name="state"
               label="状态"
-              disabled
+              disabled={isDisabledFiled}
               valueEnum={{
                 true: '开通',
                 false: '禁用',
@@ -140,7 +146,7 @@ export default () => {
               }))}
               name="roleId"
               label="所属角色"
-              disabled
+              disabled={isDisabledFiled}
             />
             <ProFormDependency name={['roleId']}>
               {({ roleId }) => {

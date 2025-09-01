@@ -212,7 +212,7 @@ const ProFormCropUpload: React.FC<
       {renderFormItem}
       <Modal
         closable={false}
-        destroyOnClose
+        destroyOnHidden
         footer={false}
         open={isModalOpen}
         width={980}

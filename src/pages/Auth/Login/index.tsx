@@ -10,11 +10,12 @@ import {
 } from '@ant-design/pro-components';
 import { Link, useModel } from '@umijs/max';
 import { useRequest, useTitle } from 'ahooks';
-import { Image, message, Spin } from 'antd';
+import { Button, Image, message, Spin, theme } from 'antd';
 import NProgress from 'nprogress';
 
 export default () => {
   useTitle('秒差距中后台管理系统-登录');
+  const { token } = theme.useToken();
   const { initialState, setInitialState } = useModel('@@initialState');
   const { loading, data, refresh } = useRequest<API.AuthCodeVo, any>(
     getPublicAuthCode,
@@ -71,7 +72,12 @@ export default () => {
     return;
   };
   return (
-    <div style={{ backgroundColor: 'white', height: '100vh' }}>
+    <div
+      style={{
+        background: 'linear-gradient(98deg, #FF7597, #805DFF)',
+        height: '100vh',
+      }}
+    >
       <LoginFormPage
         backgroundImageUrl={
           'https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png'
@@ -80,6 +86,30 @@ export default () => {
         title={(<span>HI~</span>) as any}
         subTitle="欢迎使用秒差距中后台管理系统"
         onFinish={handleLogin}
+        activityConfig={{
+          style: {
+            boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
+            color: token.colorTextHeading,
+            borderRadius: 8,
+            backgroundColor: 'rgba(255,255,255,0.25)',
+            backdropFilter: 'blur(4px)',
+          },
+          title: '活动标题，可配置图片',
+          subTitle: '活动介绍说明文字',
+          action: (
+            <Button
+              size="large"
+              style={{
+                borderRadius: 20,
+                background: token.colorBgElevated,
+                color: token.colorPrimary,
+                width: 120,
+              }}
+            >
+              去看看
+            </Button>
+          ),
+        }}
       >
         <ProFormText
           name="username"

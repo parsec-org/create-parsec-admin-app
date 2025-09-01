@@ -87,7 +87,7 @@ const TableList: React.FC<unknown> = () => {
   const [updateModalVisible, handleUpdateModalVisible] =
     useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
-  const actionRef = useRef<ActionType>(null);
+  const actionRef = useRef<ActionType>();
   const [row, setRow] = useState<API.UserInfo>();
   const [selectedRowsState, setSelectedRows] = useState<API.UserInfo[]>([]);
   const columns: ProDescriptionsItemProps<API.UserInfo>[] = [
@@ -140,11 +140,7 @@ const TableList: React.FC<unknown> = () => {
   ];
 
   return (
-    <PageContainer
-      header={{
-        title: 'CRUD 示例',
-      }}
-    >
+    <PageContainer>
       <ProTable<API.UserInfo>
         headerTitle="查询表格"
         actionRef={actionRef}
@@ -158,7 +154,7 @@ const TableList: React.FC<unknown> = () => {
             type="primary"
             onClick={() => handleModalVisible(true)}
           >
-            新建
+            新增产品
           </Button>,
         ]}
         request={async (params, sorter, filter) => {

@@ -37,7 +37,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
             body: { padding: '32px 40px 48px' },
           }}
           destroyOnHidden
-          title="规则配置"
+          title="权限设置"
           open={props.updateModalVisible}
           footer={submitter}
           onCancel={() => props.onCancel()}
@@ -56,14 +56,14 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
       title="基本信息"
     >
       <ProFormText
-        width="md"
+        width="lg"
         name="name"
         label="规则名称"
         rules={[{ required: true, message: '请输入规则名称！' }]}
       />
       <ProFormTextArea
         name="desc"
-        width="md"
+        width="lg"
         label="规则描述"
         placeholder="请输入至少五个字符"
         rules={[
@@ -79,7 +79,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
       title="配置规则属性"
     >
       <ProFormSelect
-        width="md"
+        width="lg"
         name="target"
         label="监控对象"
         valueEnum={{
@@ -88,7 +88,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
         }}
       />
       <ProFormSelect
-        width="md"
+        width="lg"
         name="template"
         label="规则模板"
         valueEnum={{
@@ -98,7 +98,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
       />
       <ProFormRadio.Group
         name="type"
-        width="md"
+        width="lg"
         label="规则类型"
         options={[
           {
@@ -120,14 +120,15 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
       title="设定调度周期"
     >
       <ProFormDateTimePicker
+        width="lg"
         name="time"
         label="开始时间"
         rules={[{ required: true, message: '请选择开始时间！' }]}
       />
       <ProFormSelect
+        width="lg"
         name="frequency"
         label="监控对象"
-        width="xs"
         valueEnum={{
           month: '月',
           week: '周',
