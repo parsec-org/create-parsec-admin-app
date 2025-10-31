@@ -1,13 +1,12 @@
 import logo from '@/assets/parsec-logo.svg';
-import { AvatarDropdown } from '@/components';
+import { AvatarDropdown, AvatarName, Question, SelectLang } from '@/components';
 import { TOKEN } from '@/constants';
 import { getAuthRules } from '@/services';
 import storage from '@/utils/storage';
 import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-components';
 import { PageLoading } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-layout';
-import type { RunTimeLayoutConfig } from '@umijs/max';
-import { history } from '@umijs/max';
+import { history, RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
 import dayjs from 'dayjs';
 import NProgress from 'nprogress';
 import { requestConfig } from './requestConfig';
@@ -84,6 +83,7 @@ export async function getInitialState(): Promise<{
   };
 }
 
+// ProLayout 支持的api https://procomponents.ant.design/components/layout
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     logo: <img src={logo} alt="parsec" />,
@@ -91,7 +91,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     menu: {
       type: 'sub',
       collapsedShowGroupTitle: false,
-      locale: false,
+      locale: true,
       request: async (params, defaultMenuData) => {
         // TODO: 如果需要根据角色处理菜单根据下面的代码进行操作即可
         return Promise.resolve<MenuDataItem[]>([...defaultMenuData]);
@@ -122,6 +122,16 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         ]);
       },
     },
+    actionsRender: () => [<Question key="doc" />, <SelectLang key="SelectLang" />],
+    avatarProps: {
+      src: initialState?.currentUser?.avatar || logo,
+      size: 'small',
+      title: <AvatarName />,
+      render: (_, avatarChildren) => <AvatarDropdown menu>{avatarChildren}</AvatarDropdown>,
+    },
+    waterMarkProps: {
+      content: initialState?.currentUser?.name,
+    },
     menuFooterRender: (props) => {
       if (props?.collapsed) return undefined;
       return (
@@ -135,14 +145,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           <div>by Parsec.com.cn</div>
         </div>
       );
-    },
-    avatarProps: {
-      src: initialState?.currentUser?.avatar || logo,
-      size: 'small',
-      title: initialState?.currentUser?.adminName,
-      render: (props, dom) => {
-        return <AvatarDropdown menu>{dom}</AvatarDropdown>;
-      },
     },
     bgLayoutImgList: [
       {
@@ -206,7 +208,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
-export const request = { ...requestConfig };
+export const request: RequestConfig = { ...requestConfig };
 
 /**
  * 在初始加载和路由切换时做一些事情。

@@ -1,7 +1,22 @@
 import { defineConfig } from '@umijs/max';
+import { join } from 'node:path';
 import routes from './routes';
 
+/**
+ * @name 使用公共路径
+ * @description 部署时的路径，如果部署在非根目录下，需要配置这个变量
+ * @doc https://umijs.org/docs/api/config#publicpath
+ */
+const PUBLIC_PATH: string = '/';
+
 export default defineConfig({
+  /**
+   * @name 开启 hash 模式
+   * @description 让 build 之后的产物包含 hash 后缀。通常用于增量发布和避免浏览器加载缓存。
+   * @doc https://umijs.org/docs/api/config#hash
+   */
+  hash: true,
+  publicPath: PUBLIC_PATH,
   define: {
     APP_STORAGE_PREFIX: process.env.APP_STORAGE_PREFIX || 'parsec-admin', // 缓存前缀
     APP_API_HOST: process.env.APP_API_HOST, // mock 地址一般是 apifox 本地测试环境地址
@@ -81,7 +96,20 @@ export default defineConfig({
    */
   layout: {
     title: 'parsec-admin-next',
-    locale: false, // 默认开启，如无需菜单国际化可关闭
+    locale: true, // 默认开启，如无需菜单国际化可关闭
+  },
+  /**
+   * @name 国际化插件
+   * @doc https://umijs.org/docs/max/i18n
+   */
+  locale: {
+    default: 'zh-CN',
+    title: true,
+    antd: true, // 如果需要 antd 组件国际化，请设置为 true
+    baseSeparator: '-', // 语言和地区之间的分隔符，与文件命名一致（例如 kk-KZ）
+    useLocalStorage: true, // 自动使用 localStorage 保存当前使用的语言。
+    // default true, when it is true, will use `navigator.language` overwrite default
+    baseNavigator: true, // 启用浏览器语言检测
   },
   theme: {
     // 自定义antd组件的全局样式
@@ -100,7 +128,22 @@ export default defineConfig({
     },
     { name: 'description', content: '秒差距中后台管理系统.' },
   ],
+  /**
+   * @name <head> 中额外的 script
+   * @description 配置 <head> 中额外的 script
+   */
+  headScripts: [
+    // 解决首次加载时白屏的问题
+    { src: join(PUBLIC_PATH, 'scripts/loading.js'), async: true },
+    { content: `//! umi version: ^4.5.0;` },
+  ],
   // links: [{href: 'https://unpkg.com/nprogress@0.2.0/nprogress.css', rel: 'stylesheet', type:"text/css" }] // 样式需要重写所以禁用了
   scripts: [],
   favicons: ['/assets/parsec-logo.svg'],
+  /**
+   * 使用分包策略  https://umijs.org/blog/code-splitting#%E4%BD%BF%E7%94%A8%E5%88%86%E5%8C%85%E7%AD%96%E7%95%A5
+   */
+  codeSplitting: {
+    jsStrategy: 'granularChunks',
+  },
 });

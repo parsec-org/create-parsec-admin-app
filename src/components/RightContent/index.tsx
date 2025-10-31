@@ -1,32 +1,40 @@
-import type { HeaderProps } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
-import { Space } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { SelectLang as UmiSelectLang } from '@umijs/max';
 import React from 'react';
-import Avatar from './AvatarDropdown';
-import styles from './index.less';
 
-const GlobalHeaderRight: React.FC<{
-  showAvatarDropdown?: boolean;
-  headerProps: HeaderProps;
-}> = ({ showAvatarDropdown, headerProps }) => {
-  const { initialState } = useModel('@@initialState');
-  const { isMobile = false } = headerProps;
-  console.log('isMobile', isMobile);
+export type SiderTheme = 'light' | 'dark';
 
-  if (!initialState || !initialState.settings) {
-    return null;
-  }
-
-  const { navTheme, layout } = initialState.settings;
-  let className = styles.right;
-
-  if ((navTheme === 'realDark' && layout === 'top') || layout === 'mix') {
-    className = `${styles.right}  ${styles.dark}`;
-  }
+export const SelectLang: React.FC<{
+  className?: string;
+  icon?: React.ReactNode;
+  style?: React.CSSProperties;
+}> = ({ className, icon, style }) => {
   return (
-    <Space className={className}>
-      <Avatar menu={showAvatarDropdown} />
-    </Space>
+    <UmiSelectLang
+      className={className}
+      icon={icon}
+      style={{
+        padding: 4,
+        ...style,
+      }}
+    />
   );
 };
-export default GlobalHeaderRight;
+
+export const Question: React.FC = () => {
+  return (
+    <a
+      href="https://www.parsec.com.cn"
+      target="_blank"
+      rel="noreferrer"
+      style={{
+        display: 'inline-flex',
+        padding: '4px',
+        fontSize: '18px',
+        color: 'inherit',
+      }}
+    >
+      <QuestionCircleOutlined />
+    </a>
+  );
+};

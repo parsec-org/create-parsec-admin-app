@@ -28,3 +28,15 @@ export { default as Editor } from './ProFormEditor/Editor';
  * 图片上传裁剪组件
  */
 export { default as ProFormCropUpload } from './ProFormCropUpload';
+
+/**
+ * 这个文件作为组件的目录
+ * 目的是统一管理对外输出的组件，方便分类
+ */
+/**
+ * 布局组件
+ */
+import { Question, SelectLang } from './RightContent';
+import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown';
+
+export { AvatarDropdown, AvatarName, Question, SelectLang };
