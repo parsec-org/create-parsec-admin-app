@@ -21,12 +21,8 @@ export const handleImageChange: UploadProps['onChange'] = (info) => {
   newFileList.map((file) => {
     if (file.status === 'done' && file.response) {
       // 组件将 file.url 显示为链接
-      if (
-        file.response.hasOwnProperty('url') ||
-        file.response.hasOwnProperty('relativePath')
-      ) {
-        file.url =
-          APP_API_HOST + '/' + file.response.relativePath || file.response.url;
+      if (file.response.hasOwnProperty('url') || file.response.hasOwnProperty('relativePath')) {
+        file.url = APP_API_HOST + '/' + file.response.relativePath || file.response.url;
       }
       if (file.response.hasOwnProperty('data')) {
         file.url = file.response.data;

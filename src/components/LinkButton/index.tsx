@@ -5,11 +5,7 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 }
 
 export default (props: Props) => (
-  <a
-    onClick={(e) => e.preventDefault()}
-    className={'ant-dropdown-link'}
-    {...props}
-  >
+  <a onClick={(e) => e.preventDefault()} className={'ant-dropdown-link'} {...props}>
     {props.children}
   </a>
 );

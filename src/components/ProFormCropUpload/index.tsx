@@ -8,21 +8,12 @@ import {
   ZOOM_STEP,
 } from '@/components/ProFormCropUpload/constants';
 import getCroppedImg from '@/components/ProFormCropUpload/cropImage';
-import {
-  MinusOutlined,
-  PlusOutlined,
-  RedoOutlined,
-  UndoOutlined,
-} from '@ant-design/icons';
+import { MinusOutlined, PlusOutlined, RedoOutlined, UndoOutlined } from '@ant-design/icons';
 import type {
   ProFormUploadButtonProps,
   ProFormUploadDraggerProps,
 } from '@ant-design/pro-components';
-import {
-  ProCard,
-  ProFormUploadButton,
-  ProFormUploadDragger,
-} from '@ant-design/pro-components';
+import { ProCard, ProFormUploadButton, ProFormUploadDragger } from '@ant-design/pro-components';
 import type { UploadProps } from 'antd';
 import { Button, Col, Modal, Row, Slider, Space, Upload } from 'antd';
 import type { RcFile } from 'antd/es/upload';
@@ -43,8 +34,7 @@ const ProFormCropUpload: React.FC<
   const [image, setImage] = useState('');
   const fileRef = useRef<RcFile>();
   const beforeUploadRef = useRef<UploadProps['beforeUpload']>();
-  const resolveRef =
-    useRef<(file: void | boolean | string | Blob | File) => void>();
+  const resolveRef = useRef<(file: void | boolean | string | Blob | File) => void>();
   const rejectRef = useRef<(err: Error) => void>();
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(INIT_ROTATE);
@@ -65,14 +55,7 @@ const ProFormCropUpload: React.FC<
     },
     ...reset
   } = props;
-  const {
-    aspect,
-    cropShape,
-    showGrid,
-    minZoom = 1,
-    maxZoom = 5,
-    ...resetCrop
-  } = cropProps;
+  const { aspect, cropShape, showGrid, minZoom = 1, maxZoom = 5, ...resetCrop } = cropProps;
   const [isModalOpen, setIsModalOpen] = useState<boolean>();
 
   const getUploadProps = useCallback(
@@ -162,9 +145,7 @@ const ProFormCropUpload: React.FC<
 
     if (result === false) {
       console.error('custom beforeUpload return false');
-      return rejectRef?.current?.(
-        new Error('custom beforeUpload return false'),
-      );
+      return rejectRef?.current?.(new Error('custom beforeUpload return false'));
     }
 
     if (result === Upload.LIST_IGNORE) {
@@ -173,9 +154,7 @@ const ProFormCropUpload: React.FC<
         configurable: true,
       });
       console.error('custom beforeUpload return LIST_IGNORE');
-      return rejectRef?.current?.(
-        new Error('custom beforeUpload return LIST_IGNORE'),
-      );
+      return rejectRef?.current?.(new Error('custom beforeUpload return LIST_IGNORE'));
     }
 
     if (typeof result === 'object' && result !== null) {
@@ -191,11 +170,7 @@ const ProFormCropUpload: React.FC<
     async (croppedArea: Area, croppedAreaPixels: Area) => {
       try {
         if (croppedAreaPixels) {
-          const _croppedImage = await getCroppedImg(
-            image,
-            croppedAreaPixels,
-            rotation,
-          );
+          const _croppedImage = await getCroppedImg(image, croppedAreaPixels, rotation);
           setCroppedImage(_croppedImage || '');
         } else {
           setCroppedImage(null);
@@ -262,10 +237,7 @@ const ProFormCropUpload: React.FC<
               <img src={croppedImage} alt="Cropped" />
             </div>
             <Row gutter={24}>
-              <Col
-                span={24}
-                className={`${PREFIX}-control ${PREFIX}-control-zoom`}
-              >
+              <Col span={24} className={`${PREFIX}-control ${PREFIX}-control-zoom`}>
                 <Button
                   icon={<MinusOutlined />}
                   size={'middle'}
@@ -286,10 +258,7 @@ const ProFormCropUpload: React.FC<
                   disabled={zoom + ZOOM_STEP > maxZoom}
                 />
               </Col>
-              <Col
-                span={24}
-                className={`${PREFIX}-control ${PREFIX}-control-rotate`}
-              >
+              <Col span={24} className={`${PREFIX}-control ${PREFIX}-control-rotate`}>
                 <Button
                   icon={<UndoOutlined />}
                   size={'middle'}
@@ -313,11 +282,7 @@ const ProFormCropUpload: React.FC<
             </Row>
             <Space align={'end'} className={`${PREFIX}-control-btn-warp`}>
               <Button onClick={onCancel}>取消</Button>
-              <Button
-                type={'primary'}
-                disabled={croppedImage === null}
-                onClick={onOk}
-              >
+              <Button type={'primary'} disabled={croppedImage === null} onClick={onOk}>
                 确认
               </Button>
             </Space>

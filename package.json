@@ -14,10 +14,10 @@
     "build:staging": "UMI_ENV=staging max build",
     "dev": "max dev",
     "dev:staging": "UMI_ENV=staging max dev",
-    "format": "prettier --cache --write .",
     "postinstall": "max setup",
     "openapi": "ts-node openapi.config.ts",
     "prepare": "husky",
+    "prettier": "prettier --cache --write .",
     "setup": "max setup",
     "start": "yarn dev"
   },
@@ -70,7 +70,7 @@
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-packagejson": "^2.5.19",
     "rc-util": "^5.44.4",
-    "stylelint": "^16.25.0",
+    "stylelint": "14.8.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },

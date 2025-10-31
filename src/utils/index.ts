@@ -90,9 +90,7 @@ export const calculateAgeBasedOnIDNumber = (idNo: string): number | string => {
 export const isMobile = (value: string) => {
   // eslint-disable-next-line no-param-reassign
   value = value.replace(/[^-|\d]/g, '');
-  return (
-    /^((\+86)|(86))?(1)\d{10}$/.test(value) || /^0[0-9-]{10,13}$/.test(value)
-  );
+  return /^((\+86)|(86))?(1)\d{10}$/.test(value) || /^0[0-9-]{10,13}$/.test(value);
 };
 
 /**
@@ -152,8 +150,7 @@ export function verifyIDNumber(idCardNo: string) {
     82: '澳门',
     91: '国外 ',
   };
-  const idCardReg =
-    /^[1-9]\d{5}(19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i; // 身份证格式正则表达式
+  const idCardReg = /^[1-9]\d{5}(19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$/i; // 身份证格式正则表达式
   let isPass = true; // 身份证验证是否通过（true通过、false未通过）
   let errorMessage = ''; // 错误提示信息
 
@@ -212,9 +209,7 @@ export const preFixZero = (n: number) => {
  * @param randomLength id  长度
  */
 export const getUuid = (randomLength = 32): string => {
-  return Number(
-    Math.random().toString().substr(2, randomLength) + Date.now(),
-  ).toString(36);
+  return Number(Math.random().toString().substr(2, randomLength) + Date.now()).toString(36);
 };
 
 /**

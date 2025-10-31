@@ -5,10 +5,10 @@ const useStyles = createStyles(() => {
     colorWeak: {
       filter: 'invert(80%)',
     },
-    'ant-layout': {
+    'parsec-layout': {
       minHeight: '100vh',
     },
-    'ant-pro-sider.ant-layout-sider.ant-pro-sider-fixed': {
+    'parsec-pro-sider.ant-layout-sider.parsec-pro-sider-fixed': {
       left: 'unset',
     },
     canvas: {
@@ -23,7 +23,7 @@ const useStyles = createStyles(() => {
       listStyle: 'none',
     },
     '@media(max-width: 768px)': {
-      'ant-table': {
+      'parsec-table': {
         width: '100%',
         overflowX: 'auto',
         '&-thead > tr,    &-tbody > tr': {

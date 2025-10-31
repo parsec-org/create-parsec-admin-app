@@ -6,12 +6,11 @@ import dayjs from 'dayjs';
 import { saveAs } from 'file-saver';
 import { useCallback } from 'react';
 
-export declare type ExcelColumns<D = any, ValueType = 'text'> = ProColumns<
-  D,
-  ValueType
-> & { cellWidth?: number };
+export declare type ExcelColumns<D = any, ValueType = 'text'> = ProColumns<D, ValueType> & {
+  cellWidth?: number;
+};
 
-export interface ExportExcelButtonProps<D, P> extends ButtonProps {
+export interface ExportExcelButtonProps<D = any, P = any> extends ButtonProps {
   /**
    * 导出文件的名称
    */
@@ -33,9 +32,7 @@ export interface ExportExcelButtonProps<D, P> extends ButtonProps {
   params?: P;
 }
 
-export default <D extends unknown, P extends unknown>(
-  props: ExportExcelButtonProps<D, P>,
-) => {
+export default <D extends unknown, P extends unknown>(props: ExportExcelButtonProps<D, P>) => {
   const { fileName, children, columns, dataApi, params, ...otherProps } = props;
 
   const { loading, runAsync } = useRequest<D, P[]>(dataApi, {
@@ -52,24 +49,19 @@ export default <D extends unknown, P extends unknown>(
     const file = new ExportJsonExcel({
       saveAsBlob: true,
       fileName:
-        fileName ||
-        `${dayjs().format('YYYY-MM-DD HH时mm分ss秒')} 总共${
-          list.length || 0
-        }条`,
+        fileName || `${dayjs().format('YYYY-MM-DD HH时mm分ss秒')} 总共${list.length || 0}条`,
       datas: [
         {
           // eslint-disable-next-line array-callback-return
           sheetData: (list || []).map((cell: D) => {
-            columns?.forEach(
-              ({ dataIndex, render }: ExcelColumns<D>, index) => {
-                // @ts-ignore
-                return (cell[dataIndex] = render
-                  ? render(cell[dataIndex], cell, index, undefined, {
-                      type: undefined,
-                    })
-                  : cell[dataIndex]);
-              },
-            );
+            columns?.forEach(({ dataIndex, render }: ExcelColumns<D>, index) => {
+              // @ts-ignore
+              return (cell[dataIndex] = render
+                ? render(cell[dataIndex], cell, index, undefined, {
+                    type: undefined,
+                  })
+                : cell[dataIndex]);
+            });
             return cell;
           }),
           // sheetName: "sheet",
@@ -82,7 +74,7 @@ export default <D extends unknown, P extends unknown>(
 
     //生成文件
     saveAs(file);
-  }, [params]);
+  }, [columns, fileName, params, runAsync]);
 
   return (
     <Button loading={loading} {...otherProps} onClick={handleExportData}>

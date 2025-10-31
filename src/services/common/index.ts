@@ -6,16 +6,13 @@ export async function getAuthMe(
   params: API.getAuthMeParams,
   options?: { [key: string]: any },
 ) {
-  return request<{ code?: number; data?: API.AdminUserVo; message?: string }>(
-    '/auth/me',
-    {
-      method: 'GET',
-      params: {
-        ...params,
-      },
-      ...(options || {}),
+  return request<{ code?: number; data?: API.AdminUserVo; message?: string }>('/auth/me', {
+    method: 'GET',
+    params: {
+      ...params,
     },
-  );
+    ...(options || {}),
+  });
 }
 
 /** 修改当前用户自身的密码 PUT /auth/password */
@@ -75,21 +72,15 @@ export async function postPublicForgetPwd(
 }
 
 /** 图片验证码登录 captcha验证 POST /public/login */
-export async function authLogin(
-  body: API.AuthLoginVo,
-  options?: { [key: string]: any },
-) {
-  return request<{ code?: number; data?: string; message?: string }>(
-    '/public/login',
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: body,
-      ...(options || {}),
+export async function authLogin(body: API.AuthLoginVo, options?: { [key: string]: any }) {
+  return request<{ code?: number; data?: string; message?: string }>('/public/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    data: body,
+    ...(options || {}),
+  });
 }
 
 /** 获取短信验证码 阿里云短信服务 POST /public/sms/auth/code */

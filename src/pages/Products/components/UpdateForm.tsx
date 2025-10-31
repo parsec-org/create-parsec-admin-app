@@ -66,9 +66,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => (
         width="md"
         label="规则描述"
         placeholder="请输入至少五个字符"
-        rules={[
-          { required: true, message: '请输入至少五个字符的规则描述！', min: 5 },
-        ]}
+        rules={[{ required: true, message: '请输入至少五个字符的规则描述！', min: 5 }]}
       />
     </StepsForm.StepForm>
     <StepsForm.StepForm

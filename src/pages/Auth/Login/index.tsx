@@ -3,11 +3,7 @@ import { TOKEN } from '@/constants';
 import { authLogin, getPublicAuthCode } from '@/services';
 import storage from '@/utils/storage';
 import { CodeOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
-import {
-  LoginFormPage,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
+import { LoginFormPage, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { Link, useModel } from '@umijs/max';
 import { useRequest, useTitle } from 'ahooks';
 import { Button, Image, message, Spin, theme } from 'antd';
@@ -17,13 +13,10 @@ export default () => {
   useTitle('秒差距中后台管理系统-登录');
   const { token } = theme.useToken();
   const { initialState, setInitialState } = useModel('@@initialState');
-  const { loading, data, refresh } = useRequest<API.AuthCodeVo, any>(
-    getPublicAuthCode,
-    {
-      refreshOnWindowFocus: true,
-      onFinally: () => NProgress.done(),
-    },
-  );
+  const { loading, data, refresh } = useRequest<API.AuthCodeVo, any>(getPublicAuthCode, {
+    refreshOnWindowFocus: true,
+    onFinally: () => NProgress.done(),
+  });
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -57,10 +50,7 @@ export default () => {
         message.success('登录成功！');
         await fetchUserInfo();
         const urlParams = new URL(window.location.href).searchParams;
-        if (
-          !!urlParams.get('redirect') &&
-          !urlParams.get('redirect')?.endsWith('/login')
-        ) {
+        if (!!urlParams.get('redirect') && !urlParams.get('redirect')?.endsWith('/login')) {
           window.location.replace(urlParams.get('redirect') || '');
         } else {
           window.location.replace('/');
@@ -79,9 +69,7 @@ export default () => {
       }}
     >
       <LoginFormPage
-        backgroundImageUrl={
-          'https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png'
-        }
+        backgroundImageUrl={'https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png'}
         logo={logo}
         title={(<span>HI~</span>) as any}
         subTitle="欢迎使用秒差距中后台管理系统"

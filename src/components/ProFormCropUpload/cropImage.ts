@@ -18,10 +18,8 @@ export function rotateSize(width: number, height: number, rotation: number) {
   const rotRad = getRadianAngle(rotation);
 
   return {
-    width:
-      Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
-    height:
-      Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
+    width: Math.abs(Math.cos(rotRad) * width) + Math.abs(Math.sin(rotRad) * height),
+    height: Math.abs(Math.sin(rotRad) * width) + Math.abs(Math.cos(rotRad) * height),
   };
 }
 
@@ -45,11 +43,7 @@ export default async function getCroppedImg(
   const rotRad = getRadianAngle(rotation);
 
   // 计算旋转图像的边界框
-  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
-    image.width,
-    image.height,
-    rotation,
-  );
+  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(image.width, image.height, rotation);
 
   // 设置画布大小以匹配边界框
   canvas.width = bBoxWidth;
@@ -67,12 +61,7 @@ export default async function getCroppedImg(
 
   // croppedAreaPixels值相对于边界框
   // 使用这些值提取裁剪图像
-  const data = ctx.getImageData(
-    pixelCrop.x,
-    pixelCrop.y,
-    pixelCrop.width,
-    pixelCrop.height,
-  );
+  const data = ctx.getImageData(pixelCrop.x, pixelCrop.y, pixelCrop.width, pixelCrop.height);
 
   // 将画布宽度设置为最终所需的裁剪大小-这将清除现有上下文
   canvas.width = pixelCrop.width;

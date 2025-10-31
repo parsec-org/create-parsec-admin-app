@@ -1,10 +1,6 @@
 import { TOKEN } from '@/constants'; // 引入 css
 import storage from '@/utils/storage';
-import type {
-  IDomEditor,
-  IEditorConfig,
-  IToolbarConfig,
-} from '@wangeditor/editor';
+import type { IDomEditor, IEditorConfig, IToolbarConfig } from '@wangeditor/editor';
 import { Editor, Toolbar } from '@wangeditor/editor-for-react';
 import '@wangeditor/editor/dist/css/style.css';
 import type { RcFile } from 'antd/lib/upload/interface';
@@ -22,10 +18,7 @@ export type IEditorProps = Partial<
     style?: React.CSSProperties;
     placeholder?: string | string[];
     onChange?: (value?: string) => void;
-    action?:
-      | string
-      | ((file: RcFile) => string)
-      | ((file: RcFile) => PromiseLike<string>);
+    action?: string | ((file: RcFile) => string) | ((file: RcFile) => PromiseLike<string>);
     fieldProps?: {
       /**
        * mode: 'default' 默认模式 - 集成了 wangEditor 所有功能
@@ -34,10 +27,7 @@ export type IEditorProps = Partial<
       mode?: 'default' | 'simple';
       toolbar?: Partial<IToolbarConfig>;
     };
-  } & Omit<
-    IEditorConfig,
-    'EXTEND_CONF' | 'MENU_CONF' | 'onCreated' | 'onChange'
-  >
+  } & Omit<IEditorConfig, 'EXTEND_CONF' | 'MENU_CONF' | 'onCreated' | 'onChange'>
 >;
 
 const WangEditor = (props: IEditorProps) => {
@@ -96,9 +86,7 @@ const WangEditor = (props: IEditorProps) => {
         editor={editor}
         defaultConfig={toolbarConfig}
         mode="default"
-        style={
-          props?.editorMode === 'page' ? {} : { borderBottom: '1px solid #ccc' }
-        }
+        style={props?.editorMode === 'page' ? {} : { borderBottom: '1px solid #ccc' }}
       />
     );
   }, [editor, props?.editorMode, toolbarConfig]);

@@ -22,9 +22,7 @@ export default ({
   max?: number;
 }) => {
   // eslint-disable-next-line no-param-reassign
-  children = (children instanceof Array ? children : [children]).filter(
-    (item) => item,
-  );
+  children = (children instanceof Array ? children : [children]).filter((item) => item);
   if (children instanceof Array) {
     return (
       <>
@@ -43,18 +41,16 @@ export default ({
         {children.length > max && (
           <MoreDropdown
             menu={{
-              items: [...children]
-                .splice(max - 1, children.length)
-                .map((child, index) => {
-                  let props;
-                  if (isValidElement(child)) {
-                    props = child.props;
-                  }
-                  return {
-                    key: index,
-                    label: <LinkButton {...props} />,
-                  };
-                }),
+              items: [...children].splice(max - 1, children.length).map((child, index) => {
+                let props: any;
+                if (isValidElement(child)) {
+                  props = child.props;
+                }
+                return {
+                  key: index,
+                  label: <LinkButton {...props} />,
+                };
+              }),
             }}
           />
         )}

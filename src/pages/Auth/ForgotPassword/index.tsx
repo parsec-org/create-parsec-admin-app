@@ -1,8 +1,4 @@
-import {
-  getPublicAuthCode,
-  getSmsAuthCode,
-  postPublicForgetPwd,
-} from '@/services';
+import { getPublicAuthCode, getSmsAuthCode, postPublicForgetPwd } from '@/services';
 import { isMobile } from '@/utils';
 import {
   CodeOutlined,
@@ -12,11 +8,7 @@ import {
   SafetyOutlined,
 } from '@ant-design/icons';
 import type { ProFormInstance } from '@ant-design/pro-components';
-import {
-  ProForm,
-  ProFormCaptcha,
-  ProFormText,
-} from '@ant-design/pro-components';
+import { ProForm, ProFormCaptcha, ProFormText } from '@ant-design/pro-components';
 import { history, Link } from '@umijs/max';
 import { useRequest, useTitle } from 'ahooks';
 import { Button, Image, message, Modal, Result, Space, Spin } from 'antd';
@@ -27,10 +19,10 @@ import './index.less';
 export default () => {
   useTitle('云南省核酸检测机构运营平台管理系统-重置密码');
   const formRef = useRef<ProFormInstance>();
-  const { loading, data, refresh } = useRequest<API.AuthCodeVo, any>(
-    getPublicAuthCode,
-    { refreshOnWindowFocus: true, onFinally: () => NProgress.done() },
-  );
+  const { loading, data, refresh } = useRequest<API.AuthCodeVo, any>(getPublicAuthCode, {
+    refreshOnWindowFocus: true,
+    onFinally: () => NProgress.done(),
+  });
 
   const sendSmsAuthCode = useCallback(
     async (phone: string) => {

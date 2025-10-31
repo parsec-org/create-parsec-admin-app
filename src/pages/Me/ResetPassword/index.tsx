@@ -1,9 +1,5 @@
 import { modifyCurrentLoginPwd } from '@/services';
-import {
-  PageContainer,
-  ProForm,
-  ProFormText,
-} from '@ant-design/pro-components';
+import { PageContainer, ProForm, ProFormText } from '@ant-design/pro-components';
 import { message } from 'antd';
 
 export default () => {

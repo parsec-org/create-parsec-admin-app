@@ -67,12 +67,7 @@ export default () => {
           title="基本信息"
           colSpan="60%"
           extra={
-            <Button
-              type={'primary'}
-              ghost
-              onClick={setEditable}
-              size={'middle'}
-            >
+            <Button type={'primary'} ghost onClick={setEditable} size={'middle'}>
               {editable ? '修改信息' : '取消修改'}
             </Button>
           }
@@ -151,9 +146,7 @@ export default () => {
             <ProFormDependency name={['roleId']}>
               {({ roleId }) => {
                 if (roleId) {
-                  const ruleName =
-                    (roleList || []).filter((x) => x.id === roleId)[0]?.name ||
-                    '';
+                  const ruleName = (roleList || []).filter((x) => x.id === roleId)[0]?.name || '';
                   if (ruleName === '教育局') {
                     return (
                       <ProFormCascader
