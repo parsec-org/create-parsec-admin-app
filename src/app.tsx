@@ -3,10 +3,7 @@ import { AvatarDropdown } from '@/components';
 import { TOKEN } from '@/constants';
 import { getAuthRules } from '@/services';
 import storage from '@/utils/storage';
-import type {
-  Settings as LayoutSettings,
-  MenuDataItem,
-} from '@ant-design/pro-components';
+import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-components';
 import { PageLoading } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-layout';
 import type { RunTimeLayoutConfig } from '@umijs/max';
@@ -87,10 +84,7 @@ export async function getInitialState(): Promise<{
   };
 }
 
-export const layout: RunTimeLayoutConfig = ({
-  initialState,
-  setInitialState,
-}) => {
+export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     logo: <img src={logo} alt="parsec" />,
     title: 'parsec-admin-next',
@@ -110,9 +104,7 @@ export const layout: RunTimeLayoutConfig = ({
         const meRoute = defaultMenuData.find((x) => x.path === '/me');
         const currentUserMenu: MenuDataItem[] =
           menuAuth.map((role) => {
-            return defaultMenuData.find(
-              (x) => x.path === role.route,
-            ) as MenuDataItem;
+            return defaultMenuData.find((x) => x.path === role.route) as MenuDataItem;
           }) || [];
         return Promise.resolve<MenuDataItem[]>([
           ...currentUserMenu.concat([
@@ -224,12 +216,7 @@ export const request = { ...requestConfig };
  * @param routes
  * @param action
  */
-export const onRouteChange = ({
-  location,
-  clientRoutes,
-  routes,
-  action,
-}: any) => {
+export const onRouteChange = ({ location, clientRoutes, routes, action }: any) => {
   NProgress.start();
   console.log('onRouteChange', { location, clientRoutes, routes, action });
 };

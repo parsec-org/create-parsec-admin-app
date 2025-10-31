@@ -1,6 +1,10 @@
 module.exports = {
   root: true,
-  extends: [require.resolve('@umijs/max/eslint'), 'plugin:prettier/recommended'],
+  extends: [
+    require.resolve('@umijs/max/eslint'),
+    'plugin:react-hooks/recommended',
+    'plugin:prettier/recommended',
+  ],
   globals: {
     page: true,
     REACT_APP_ENV: true,
