@@ -1,6 +1,7 @@
 import { PageContainer } from '@ant-design/pro-components';
 import { Access, useAccess } from '@umijs/max';
 import { Button } from 'antd';
+import React from 'react';
 
 const AccessPage: React.FC = () => {
   const access = useAccess();
