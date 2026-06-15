@@ -17,6 +17,7 @@ export default defineConfig({
    */
   hash: true,
   publicPath: PUBLIC_PATH,
+  esbuildMinifyIIFE: true,
   define: {
     APP_STORAGE_PREFIX: process.env.APP_STORAGE_PREFIX || 'parsec-admin', // 缓存前缀
     APP_API_HOST: process.env.APP_API_HOST, // mock 地址一般是 apifox 本地测试环境地址
