@@ -30,7 +30,7 @@ export default ({ url }: { url: string }) => {
     document.body.appendChild(container);
     reactRender(
       <Preview
-        prefixCls={'ant-image-preview'}
+        prefixCls="ant-image-preview"
         src={url}
         icons={icons}
         onClose={destroy}

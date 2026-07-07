@@ -1,5 +1,5 @@
 const zhCN = {
-  title: 'Parsec Backstage Management System',
+  'title': 'Parsec Backstage Management System',
   // menu
   'menu.login': 'Login',
   'menu.logout': 'Log out',

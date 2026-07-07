@@ -20,7 +20,7 @@ import type { RcFile } from 'antd/es/upload';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import type { CropperProps } from 'react-easy-crop';
 import Cropper from 'react-easy-crop';
-import { Area, Point } from 'react-easy-crop/types';
+import type { Area, Point } from 'react-easy-crop/types';
 
 const ProFormCropUpload: React.FC<
   Pick<ProFormUploadButtonProps | ProFormUploadDraggerProps, any> & {
@@ -126,7 +126,7 @@ const ProFormCropUpload: React.FC<
     // get the new image
     // @ts-ignore
     const { type, name, uid } = fileRef.current;
-    const imgBlob = await fetch(croppedImage).then((r) => r.blob());
+    const imgBlob = await fetch(croppedImage).then(r => r.blob());
     const newFile = Object.assign(new File([imgBlob], name, { type }), {
       uid,
     }) as RcFile;
@@ -172,10 +172,12 @@ const ProFormCropUpload: React.FC<
         if (croppedAreaPixels) {
           const _croppedImage = await getCroppedImg(image, croppedAreaPixels, rotation);
           setCroppedImage(_croppedImage || '');
-        } else {
+        }
+        else {
           setCroppedImage(null);
         }
-      } catch (e) {
+      }
+      catch (e) {
         console.error(e);
       }
     },
@@ -240,7 +242,7 @@ const ProFormCropUpload: React.FC<
               <Col span={24} className={`${PREFIX}-control ${PREFIX}-control-zoom`}>
                 <Button
                   icon={<MinusOutlined />}
-                  size={'middle'}
+                  size="middle"
                   onClick={() => setZoom(zoom - ZOOM_STEP)}
                   disabled={zoom - ZOOM_STEP < minZoom}
                 />
@@ -253,7 +255,7 @@ const ProFormCropUpload: React.FC<
                 />
                 <Button
                   icon={<PlusOutlined />}
-                  size={'middle'}
+                  size="middle"
                   onClick={() => setZoom(zoom + ZOOM_STEP)}
                   disabled={zoom + ZOOM_STEP > maxZoom}
                 />
@@ -261,7 +263,7 @@ const ProFormCropUpload: React.FC<
               <Col span={24} className={`${PREFIX}-control ${PREFIX}-control-rotate`}>
                 <Button
                   icon={<UndoOutlined />}
-                  size={'middle'}
+                  size="middle"
                   onClick={() => setRotation(rotation - ROTATE_STEP)}
                   disabled={rotation === MIN_ROTATE}
                 />
@@ -274,15 +276,15 @@ const ProFormCropUpload: React.FC<
                 />
                 <Button
                   icon={<RedoOutlined />}
-                  size={'middle'}
+                  size="middle"
                   onClick={() => setRotation(rotation + ROTATE_STEP)}
                   disabled={rotation === MAX_ROTATE}
                 />
               </Col>
             </Row>
-            <Space align={'end'} className={`${PREFIX}-control-btn-warp`}>
+            <Space align="end" className={`${PREFIX}-control-btn-warp`}>
               <Button onClick={onCancel}>取消</Button>
-              <Button type={'primary'} disabled={croppedImage === null} onClick={onOk}>
+              <Button type="primary" disabled={croppedImage === null} onClick={onOk}>
                 确认
               </Button>
             </Space>

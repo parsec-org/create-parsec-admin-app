@@ -35,7 +35,7 @@ export default () => {
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
-      await setInitialState((s) => ({
+      await setInitialState(s => ({
         ...s,
         currentUser: userInfo,
       }));
@@ -54,7 +54,8 @@ export default () => {
       message.success('保存成功', 2, fetchUserInfo);
       setEditable();
       return true;
-    } catch (error) {
+    }
+    catch (error) {
       hide();
       message.error('保存失败请重试！');
       return false;
@@ -66,17 +67,17 @@ export default () => {
         <ProCard
           title="基本信息"
           colSpan="60%"
-          extra={
-            <Button type={'primary'} ghost onClick={setEditable} size={'middle'}>
+          extra={(
+            <Button type="primary" ghost onClick={setEditable} size="middle">
               {editable ? '修改信息' : '取消修改'}
             </Button>
-          }
+          )}
         >
           <ProForm<API.AdminUserVo>
-            size={'large'}
+            size="large"
             form={form}
             disabled={editable}
-            onFinish={async (values) => handleSaveAdminInfo(values)}
+            onFinish={async values => handleSaveAdminInfo(values)}
             submitter={{
               searchConfig: {
                 submitText: '保存修改',
@@ -111,7 +112,7 @@ export default () => {
             <ProFormDigit
               name="phone"
               label="手机号码"
-              tooltip={'手机号码是用于登录系统的账号信息，不能重复出现。'}
+              tooltip="手机号码是用于登录系统的账号信息，不能重复出现。"
               rules={[
                 {
                   required: true,
@@ -135,7 +136,7 @@ export default () => {
               rules={[{ required: true, message: '请选择账号状态!' }]}
             />
             <ProFormSelect
-              options={roleList?.map((item) => ({
+              options={roleList?.map(item => ({
                 value: item.id,
                 label: item.name,
               }))}
@@ -146,7 +147,7 @@ export default () => {
             <ProFormDependency name={['roleId']}>
               {({ roleId }) => {
                 if (roleId) {
-                  const ruleName = (roleList || []).filter((x) => x.id === roleId)[0]?.name || '';
+                  const ruleName = (roleList || []).filter(x => x.id === roleId)[0]?.name || '';
                   if (ruleName === '教育局') {
                     return (
                       <ProFormCascader

@@ -21,7 +21,7 @@ export default () => {
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
-      await setInitialState((s) => ({
+      await setInitialState(s => ({
         ...s,
         currentUser: userInfo,
       }));
@@ -39,8 +39,8 @@ export default () => {
     console.log('loginRes', loginRes);
     storage.set(
       TOKEN,
-      loginRes?.data ||
-        'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJScszJTUysUtJRSixNAXINgazi0iSQhIuvpx-Ql1pRoGRlaGZmbmlhbGpqUAsAX7_vLzkAAAA.68vkT7Pf2-N0maYVuVvUF_I4-R_sTmAcGjtmzBSrpSXj6_D4qOzc57StHZBMEPhuJS-fQ6atVA8Pv6na6qHJmQ',
+      loginRes?.data
+      || 'eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWyiwuVrJScszJTUysUtJRSixNAXINgazi0iSQhIuvpx-Ql1pRoGRlaGZmbmlhbGpqUAsAX7_vLzkAAAA.68vkT7Pf2-N0maYVuVvUF_I4-R_sTmAcGjtmzBSrpSXj6_D4qOzc57StHZBMEPhuJS-fQ6atVA8Pv6na6qHJmQ',
     );
     window.location.replace('/');
     return;
@@ -52,10 +52,12 @@ export default () => {
         const urlParams = new URL(window.location.href).searchParams;
         if (!!urlParams.get('redirect') && !urlParams.get('redirect')?.endsWith('/login')) {
           window.location.replace(urlParams.get('redirect') || '');
-        } else {
+        }
+        else {
           window.location.replace('/');
         }
-      } else {
+      }
+      else {
         message.error(loginRes?.message || '登录失败！');
       }
     }
@@ -69,7 +71,7 @@ export default () => {
       }}
     >
       <LoginFormPage
-        backgroundImageUrl={'https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png'}
+        backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
         logo={logo}
         title={(<span>HI~</span>) as any}
         subTitle="欢迎使用秒差距中后台管理系统"
@@ -103,9 +105,9 @@ export default () => {
           name="username"
           fieldProps={{
             size: 'large',
-            prefix: <UserOutlined className={'prefixIcon'} />,
+            prefix: <UserOutlined className="prefixIcon" />,
           }}
-          placeholder={'请输入用户名'}
+          placeholder="请输入用户名"
           rules={[
             {
               required: true,
@@ -117,9 +119,9 @@ export default () => {
           name="password"
           fieldProps={{
             size: 'large',
-            prefix: <LockOutlined className={'prefixIcon'} />,
+            prefix: <LockOutlined className="prefixIcon" />,
           }}
-          placeholder={'请输入密码'}
+          placeholder="请输入密码"
           rules={[
             {
               required: true,
@@ -131,7 +133,7 @@ export default () => {
           name="captchaCode"
           fieldProps={{
             size: 'large',
-            prefix: <CodeOutlined className={'prefixIcon'} />,
+            prefix: <CodeOutlined className="prefixIcon" />,
             suffix: (
               <Spin spinning={loading}>
                 <Image
@@ -146,7 +148,7 @@ export default () => {
               </Spin>
             ),
           }}
-          placeholder={'请输入验证码'}
+          placeholder="请输入验证码"
           rules={[
             {
               required: true,
@@ -163,7 +165,7 @@ export default () => {
             自动登录
           </ProFormCheckbox>
           <Link
-            to={'/auth/forget-password'}
+            to="/auth/forget-password"
             style={{
               float: 'right',
             }}

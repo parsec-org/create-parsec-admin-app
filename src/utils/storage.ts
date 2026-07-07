@@ -4,5 +4,5 @@ export default storage.create<{
   token: string;
   [key: string]: any;
 }>({
-  formatKey: (key) => `${APP_STORAGE_PREFIX}-${key}`,
+  formatKey: key => `${APP_STORAGE_PREFIX}-${key}`,
 });

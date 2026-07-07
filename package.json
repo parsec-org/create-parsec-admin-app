@@ -1,30 +1,29 @@
 {
   "name": "parsec-app",
+  "type": "module",
   "version": "1.0.0",
   "private": true,
   "description": "{{description}}",
+  "author": "{{author}}",
   "repository": {
     "type": "git",
     "url": "{{git}}"
   },
-  "author": "{{author}}",
+  "engines": {
+    "node": ">=20.17.0"
+  },
   "scripts": {
+    "dev": "max dev",
+    "dev:staging": "UMI_ENV=staging max dev",
     "build": "max build",
     "build:production": "UMI_ENV=production max build",
     "build:staging": "UMI_ENV=staging max build",
-    "dev": "max dev",
-    "dev:staging": "UMI_ENV=staging max dev",
     "postinstall": "max setup",
-    "openapi": "ts-node openapi.config.ts",
-    "prepare": "husky",
-    "prettier": "prettier --cache --write .",
+    "openapi": "openapi2ts & pnpm run lint",
     "setup": "max setup",
-    "start": "yarn dev"
-  },
-  "lint-staged": {
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write"
-    ]
+    "start": "yarn dev",
+    "lint": "eslint . --fix",
+    "prepare": "simple-git-hooks"
   },
   "browserslist": [
     "last 2 versions",
@@ -52,28 +51,23 @@
     "vstores": "^0.0.17"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^9.1.0",
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
     "@types/file-saver": "^2.0.7",
     "@types/nprogress": "^0.2.3",
     "@types/qs": "^6.15.1",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "@umijs/lint": "^4.6.71",
     "@umijs/openapi": "^1.14.1",
-    "eslint": "^8.57.1",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.6",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "husky": "^9.1.7",
+    "eslint": "^10.6.0",
+    "eslint-plugin-format": "^2.0.1",
     "less-loader": "^13.0.0",
-    "lint-staged": "^17.0.8",
-    "prettier": "^3.9.4",
-    "prettier-plugin-organize-imports": "^4.3.0",
-    "prettier-plugin-packagejson": "^3.0.2",
-    "stylelint": "^17.14.0",
-    "ts-node": "^10.9.2",
+    "simple-git-hooks": "^2.13.1",
     "typescript": "^6.0.3"
   },
-  "engines": {
-    "node": ">=20.17.0"
+  "simple-git-hooks": {
+    "pre-commit": "npx eslint . --fix",
+    "commit-msg": "npx --no-install commitlint --edit $1"
   }
 }

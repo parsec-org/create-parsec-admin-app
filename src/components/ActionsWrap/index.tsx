@@ -5,35 +5,30 @@ import MoreDropdown from '../MoreDropdown';
 
 /**
  * 列表操作项，超过3个会隐藏多余的
- * @param children
- * @param max
+ * @param children.children children建议放多个LinkButton
+ * @param children.max 最多显示几个操作
  */
+
 export default ({
   children,
   max = 3,
 }: {
-  /**
-   * children建议放多个LinkButton
-   */
   children: React.ReactNode[] | React.ReactNode;
-  /**
-   * 最多显示几个操作
-   */
   max?: number;
 }) => {
-  // eslint-disable-next-line no-param-reassign
-  children = (children instanceof Array ? children : [children]).filter((item) => item);
-  if (children instanceof Array) {
+  children = (Array.isArray(children) ? children : [children]).filter(item => item);
+  if (Array.isArray(children)) {
     return (
       <>
         {children.map((child, index) => {
-          if (!(children instanceof Array)) return null;
+          if (!(Array.isArray(children)))
+            return null;
           const num = children.length > max ? max - 1 : max;
           return (
             index < num && (
               <Fragment key={index}>
                 {child}
-                {children.length !== index + 1 && <Divider type={'vertical'} />}
+                {children.length !== index + 1 && <Divider type="vertical" />}
               </Fragment>
             )
           );

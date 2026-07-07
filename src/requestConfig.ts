@@ -4,7 +4,7 @@ import type { RequestOptions } from '@@/plugin-request/request';
 import type { RequestConfig } from '@umijs/max';
 import { history } from '@umijs/max';
 import { message, Modal } from 'antd';
-import { stringify } from 'querystring';
+import qs from 'qs';
 
 // 错误处理方案： 错误类型
 enum ErrorShowType {
@@ -54,7 +54,8 @@ export const requestConfig: RequestConfig = {
     // 错误接收及处理
     errorHandler: (error: any, opts: any) => {
       console.log('errorHandler', error, opts);
-      if (opts?.skipErrorHandler) throw error;
+      if (opts?.skipErrorHandler)
+        throw error;
       if (error.response) {
         // Axios 的错误
         const { status, data } = error.response;
@@ -72,7 +73,7 @@ export const requestConfig: RequestConfig = {
                 storage.clear(); // 清除缓存信息
                 history.replace({
                   pathname: '/auth/login',
-                  search: stringify({
+                  search: qs.stringify({
                     redirect: pathname + search,
                   }),
                 });
@@ -84,12 +85,14 @@ export const requestConfig: RequestConfig = {
             message.error(`${errorMsg || '服务器异常，请稍后重试'} ${status}`);
             break;
         }
-      } else if (error.request) {
+      }
+      else if (error.request) {
         // 请求已经成功发起，但没有收到响应
         // \`error.request\` 在浏览器中是 XMLHttpRequest 的实例，
         // 而在node.js中是 http.ClientRequest 的实例
         message.error('服务器暂时没有回应！ 请稍后重试。');
-      } else {
+      }
+      else {
         // 发送请求时出了点问题
         message.error('请求错误，请重新尝试。');
       }
@@ -107,7 +110,7 @@ export const requestConfig: RequestConfig = {
       }
       // config.headers
       const token = storage.get(TOKEN);
-      if (!!token) {
+      if (token) {
         config.headers = {
           ...config.headers,
           Authorization: `Bearer ${token}`.replace(/"/g, ''),
@@ -122,8 +125,8 @@ export const requestConfig: RequestConfig = {
   responseInterceptors: [
     (response) => {
       // 获取相应头的鉴权信息
-      if (response.headers.hasOwnProperty('token')) {
-        storage.set(TOKEN, response.headers['token']);
+      if (Object.hasOwn(response.headers, 'token')) {
+        storage.set(TOKEN, response.headers.token);
       }
       // 拦截响应数据，进行个性化处理
       return response;

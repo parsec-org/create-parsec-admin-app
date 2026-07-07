@@ -1,5 +1,5 @@
 const zhCN = {
-  title: '秒差距中后台管理系统',
+  'title': '秒差距中后台管理系统',
   // menu
   'menu.login': '登录',
   'menu.logout': '退出登录',

@@ -1,7 +1,7 @@
 import { Dropdown } from 'antd';
 import { createStyles } from 'antd-style';
 import type { DropDownProps } from 'antd/es/dropdown';
-import { DropdownClassNamesType } from 'antd/es/dropdown/dropdown';
+import type { DropdownClassNamesType } from 'antd/es/dropdown/dropdown';
 import classNames from 'classnames';
 import React from 'react';
 

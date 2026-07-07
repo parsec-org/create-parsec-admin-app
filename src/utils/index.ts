@@ -1,10 +1,10 @@
-export const waitTime = (time: number = 100) => {
+export function waitTime(time: number = 100) {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(true);
     }, time);
   });
-};
+}
 
 /**
  * 一些常用格式参照。可以自定义格式，例如："yyyy/MM/dd HH:mm:ss"，"yyyy/M/d HH:mm:ss"。
@@ -36,32 +36,32 @@ export class DateFormats {
  * 身份证隐藏中间8位(出生年月日)
  * @param idNo
  */
-export const hideIdNo = (idNo: string): string => {
-  return idNo.replace(/^(\d{6})\d{8}(.{4}$)/g, `$1${Array(9).join('*')}$2`);
-};
+export function hideIdNo(idNo: string): string {
+  return idNo.replace(/^(\d{6})\d{8}(.{4}$)/g, `$1${Array.from({ length: 9 }).join('*')}$2`);
+}
 
 /**
  * 电话号码隐藏中间四位
  * @param phone
  */
-export const hidePhoneNumber = (phone: string): string => {
+export function hidePhoneNumber(phone: string): string {
   return phone.replace(/^(\d{3})\d+(\d{4})$/, '$1****$2');
-};
+}
 
 /**
  * 验证统一社会信用代码
  * @param code
  */
-export const verifyUnifiedSocialCreditCode = (code: string): boolean => {
-  let reg = /[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g;
+export function verifyUnifiedSocialCreditCode(code: string): boolean {
+  const reg = /[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g;
   return reg.test(code);
-};
+}
 
 /**
  * 根据身份证号计算年龄
  * @param idNo 身份证号
  */
-export const calculateAgeBasedOnIDNumber = (idNo: string): number | string => {
+export function calculateAgeBasedOnIDNumber(idNo: string): number | string {
   if (idNo !== null) {
     const yearBirth = idNo.substring(6, 10);
     const monthBirth = idNo.substring(10, 12);
@@ -71,46 +71,46 @@ export const calculateAgeBasedOnIDNumber = (idNo: string): number | string => {
     const dayNow = myDate.getDate();
     let age = myDate.getFullYear() - parseInt(yearBirth);
     if (
-      monthNow < parseInt(monthBirth) ||
-      (monthNow === parseInt(monthBirth) && dayNow < parseInt(dayBirth))
+      monthNow < parseInt(monthBirth)
+      || (monthNow === parseInt(monthBirth) && dayNow < parseInt(dayBirth))
     ) {
       age--;
     }
-    //返回年龄
+    // 返回年龄
     return age;
-  } else {
+  }
+  else {
     return '';
   }
-};
+}
 
 /**
  * 是否是手机号码
  * @param value
  */
-export const isMobile = (value: string) => {
-  // eslint-disable-next-line no-param-reassign
+export function isMobile(value: string) {
   value = value.replace(/[^-|\d]/g, '');
   return /^((\+86)|(86))?(1)\d{10}$/.test(value) || /^0[0-9-]{10,13}$/.test(value);
-};
+}
 
 /**
  * 手机号、座机号同时验证
  * @param value
  */
-export const isTelephone = (value: string) => {
+export function isTelephone(value: string) {
   const _isMobile = isMobile(value);
-  let pattern = /^0\d{2,3}-\d{7,8}$/;
+  const pattern = /^0\d{2,3}-\d{7,8}$/;
   return _isMobile || pattern.test(value);
-};
+}
 
 /**
  * 验证身份证号码
- * @param { String } idCardNo 身份证号码
+ * @param {string} idCardNo 身份证号码
  * @returns {
  *   isPass, // 验证是否通过，默认通过，为true，否则为false
  *   errorMessage, // 错误信息，isPass为true则为''
  * }
- * */
+ */
 export function verifyIDNumber(idCardNo: string) {
   // 身份证号前两位代表区域
   const city: Record<number, string> = {
@@ -158,16 +158,19 @@ export function verifyIDNumber(idCardNo: string) {
   if (!idCardNo) {
     errorMessage = '请输入身份证号码';
     isPass = false;
-  } else if (!idCardNo.match(idCardReg)) {
+  }
+  else if (!idCardReg.test(idCardNo)) {
     errorMessage = '请输入正确的身份证号码';
     isPass = false;
-  } else {
+  }
+  else {
     // @ts-ignore
     if (!city[idCardNo.substring(0, 2)]) {
       // 区域数组中不包含需验证的身份证前两位
       errorMessage = '请输入正确的身份证号码';
       isPass = false;
-    } else if (idCardNo.length === 18) {
+    }
+    else if (idCardNo.length === 18) {
       // 18位身份证需要验证最后一位校验位
       const lastNos = idCardNo.split('');
       // ∑(ai×Wi)(mod 11)
@@ -200,63 +203,64 @@ export function verifyIDNumber(idCardNo: string) {
  * 各位补零
  * @param n
  */
-export const preFixZero = (n: number) => {
+export function preFixZero(n: number) {
   return n > 9 ? `${n}` : `0${n}`;
-};
+}
 
 /**
  * 生成一个用不重复的ID
  * @param randomLength id  长度
  */
-export const getUuid = (randomLength = 32): string => {
+export function getUuid(randomLength = 32): string {
   return Number(Math.random().toString().substr(2, randomLength) + Date.now()).toString(36);
-};
+}
 
 /**
  * 是否是微信
  */
 export const isWx = /micromessenger/.test(navigator.userAgent.toLowerCase());
 
-export const escape2Html = (html: string): string => {
+export function escape2Html(html: string): string {
   if (!html) {
     return '';
   }
   const arrEntities: any = { lt: '<', gt: '>', nbsp: ' ', amp: '&', quot: '"' };
-  return html.replace(/&(lt|gt|nbsp|amp|quot);/gi, function (_all, t) {
+  return html.replace(/&(lt|gt|nbsp|amp|quot);/gi, (_all, t) => {
     return arrEntities[t];
   });
-};
+}
 
-export const isMobileDevices = () => {
+export function isMobileDevices() {
   return !!(
-    navigator.userAgent.match(/Android/i) ||
-    navigator.userAgent.match(/webOS/i) ||
-    navigator.userAgent.match(/iPhone/i) ||
-    navigator.userAgent.match(/iPad/i) ||
-    navigator.userAgent.match(/iPod/i) ||
-    navigator.userAgent.match(/BlackBerry/i) ||
-    navigator.userAgent.match(/Windows Phone/i)
+    navigator.userAgent.match(/Android/i)
+    || navigator.userAgent.match(/webOS/i)
+    || navigator.userAgent.match(/iPhone/i)
+    || navigator.userAgent.match(/iPad/i)
+    || navigator.userAgent.match(/iPod/i)
+    || navigator.userAgent.match(/BlackBerry/i)
+    || navigator.userAgent.match(/Windows Phone/i)
   );
-};
+}
 
 /**
  * 随机生成十六进制颜色
  */
-export const randomHexColor = () => {
-  //随机生成十六进制颜色
+export function randomHexColor() {
+  // 随机生成十六进制颜色
   let hex = Math.floor(Math.random() * 16777216).toString(16);
-  //生成ffffff以内16进制数
+  // 生成ffffff以内16进制数
   while (hex.length < 6) {
-    //while循环判断hex位数，少于6位前面加0凑够6位
-    hex = '0' + hex;
+    // while循环判断hex位数，少于6位前面加0凑够6位
+    hex = `0${hex}`;
   }
-  return '#' + hex; //返回‘#'开头16进制颜色
-};
+  return `#${hex}`; // 返回‘#'开头16进制颜色
+}
 
-export const treeToArray = (tree: any[]) => {
+export function treeToArray(tree: any[]) {
   // 判断 tree 是否有值，无返回 []
-  if (!Array.isArray(tree) || !tree.length) return [];
-  let res: any[] = [];
+  if (!Array.isArray(tree) || !tree.length)
+    return [];
+  const res: any[] = [];
   tree.forEach((v) => {
     // tree的每个元素都 放入到 res里面
     res.push(v);
@@ -266,4 +270,4 @@ export const treeToArray = (tree: any[]) => {
     }
   });
   return res;
-};
+}

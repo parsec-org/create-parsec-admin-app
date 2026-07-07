@@ -1,6 +1,6 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown } from 'antd';
-import { DropDownProps } from 'antd/lib/dropdown';
+import type { DropDownProps } from 'antd/lib/dropdown';
 import LinkButton from '../LinkButton';
 
 export default (props: DropDownProps) => (
@@ -10,7 +10,9 @@ export default (props: DropDownProps) => (
         e.stopPropagation();
       }}
     >
-      更多 <DownOutlined />
+      更多
+      {' '}
+      <DownOutlined />
     </LinkButton>
   </Dropdown>
 );

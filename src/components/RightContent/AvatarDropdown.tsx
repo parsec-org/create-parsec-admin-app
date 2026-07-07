@@ -9,33 +9,33 @@ import React from 'react';
 import { flushSync } from 'react-dom';
 import HeaderDropdown from '../HeaderDropdown';
 
-export type GlobalHeaderRightProps = {
+export interface GlobalHeaderRightProps {
   menu?: boolean;
   children?: React.ReactNode;
-};
+}
 
-const outLogin = async () => {
+async function outLogin() {
   await waitTime(2000);
   console.log('outLogin');
-};
+}
 
-export const AvatarName = () => {
+export function AvatarName() {
   const { initialState } = useModel('@@initialState');
   const { currentUser } = initialState || {};
   return <span className="anticon">{currentUser?.name}</span>;
-};
+}
 
 const useStyles = createStyles(({ token }) => {
   return {
     action: {
-      display: 'flex',
-      height: '48px',
-      marginLeft: 'auto',
-      overflow: 'hidden',
-      alignItems: 'center',
-      padding: '0 8px',
-      cursor: 'pointer',
-      borderRadius: token.borderRadius,
+      'display': 'flex',
+      'height': '48px',
+      'marginLeft': 'auto',
+      'overflow': 'hidden',
+      'alignItems': 'center',
+      'padding': '0 8px',
+      'cursor': 'pointer',
+      'borderRadius': token.borderRadius,
       '&:hover': {
         backgroundColor: token.colorBgTextHover,
       },
@@ -73,7 +73,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     const { key } = event;
     if (key === 'logout') {
       flushSync(() => {
-        setInitialState((s) => ({ ...s, currentUser: undefined }));
+        setInitialState(s => ({ ...s, currentUser: undefined }));
       });
       loginOut();
       return;

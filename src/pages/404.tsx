@@ -7,11 +7,11 @@ const NoFoundPage: React.FC = () => (
     status="404"
     title="404"
     subTitle="非常抱歉，您访问的页面不存在。"
-    extra={
+    extra={(
       <Button type="primary" onClick={() => history.push('/')}>
         返回首页
       </Button>
-    }
+    )}
   />
 );
 

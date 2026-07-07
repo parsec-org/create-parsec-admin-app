@@ -6,7 +6,8 @@ import storage from '@/utils/storage';
 import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-components';
 import { PageLoading } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-layout';
-import { history, RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
+import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
+import { history } from '@umijs/max';
 import dayjs from 'dayjs';
 import NProgress from 'nprogress';
 import { requestConfig } from './requestConfig';
@@ -55,7 +56,8 @@ export async function getInitialState(): Promise<{
         name: data?.adminName || data?.realName || data?.loginName || '',
         avatar: undefined,
       };
-    } catch (error) {
+    }
+    catch (error) {
       history.push(loginPath);
     }
     return undefined;
@@ -101,10 +103,10 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
         }
         const menuAuth = await getAuthRules();
         // 这样操作只是为了继续使用 umi 提供的图标映射
-        const meRoute = defaultMenuData.find((x) => x.path === '/me');
-        const currentUserMenu: MenuDataItem[] =
-          menuAuth.map((role) => {
-            return defaultMenuData.find((x) => x.path === role.route) as MenuDataItem;
+        const meRoute = defaultMenuData.find(x => x.path === '/me');
+        const currentUserMenu: MenuDataItem[]
+          = menuAuth.map((role) => {
+            return defaultMenuData.find(x => x.path === role.route) as MenuDataItem;
           }) || [];
         return Promise.resolve<MenuDataItem[]>([
           ...currentUserMenu.concat([
@@ -133,7 +135,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       content: initialState?.currentUser?.name,
     },
     menuFooterRender: (props) => {
-      if (props?.collapsed) return undefined;
+      if (props?.collapsed)
+        return undefined;
       return (
         <div
           style={{
@@ -177,25 +180,26 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     // 增加一个 loading 的状态
     childrenRender: (children, props) => {
-      if (initialState?.loading) return <PageLoading />;
+      if (initialState?.loading)
+        return <PageLoading />;
       return (
         <>
           {children}
-          {process.env.UMI_ENV !== 'production' &&
-            !props.location?.pathname?.includes('/login') && (
-              <SettingDrawer
-                disableUrlParams
-                enableDarkTheme
-                settings={initialState?.settings}
-                onSettingChange={(settings) => {
-                  console.log('settings', settings);
-                  setInitialState((preInitialState) => ({
-                    ...preInitialState,
-                    settings,
-                  }));
-                }}
-              />
-            )}
+          {process.env.UMI_ENV !== 'production'
+            && !props.location?.pathname?.includes('/login') && (
+            <SettingDrawer
+              disableUrlParams
+              enableDarkTheme
+              settings={initialState?.settings}
+              onSettingChange={(settings) => {
+                console.log('settings', settings);
+                setInitialState(preInitialState => ({
+                  ...preInitialState,
+                  settings,
+                }));
+              }}
+            />
+          )}
         </>
       );
     },
@@ -213,12 +217,13 @@ export const request: RequestConfig = { ...requestConfig };
 /**
  * 在初始加载和路由切换时做一些事情。
  * 比如用于做埋点统计，
- * @param location
- * @param clientRoutes
- * @param routes
- * @param action
+ * @param location.location
+ * @param location.clientRoutes
+ * @param location.routes
+ * @param location.action
  */
-export const onRouteChange = ({ location, clientRoutes, routes, action }: any) => {
+
+export function onRouteChange({ location, clientRoutes, routes, action }: any) {
   NProgress.start();
   console.log('onRouteChange', { location, clientRoutes, routes, action });
-};
+}

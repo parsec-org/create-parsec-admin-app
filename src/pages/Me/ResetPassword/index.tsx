@@ -17,8 +17,8 @@ export default () => {
           newPwd: string;
         }>
           {...formItemLayout}
-          layout={'vertical'}
-          size={'large'}
+          layout="vertical"
+          size="large"
           submitter={{
             searchConfig: {
               submitText: '确认修改',
@@ -30,7 +30,8 @@ export default () => {
               await modifyCurrentLoginPwd({ ...values });
               hide();
               message.success('密码修改成功');
-            } catch (e) {
+            }
+            catch (e) {
               hide();
             }
           }}

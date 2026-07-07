@@ -52,7 +52,7 @@ export default <D extends unknown, P extends unknown>(props: ExportExcelButtonPr
         fileName || `${dayjs().format('YYYY-MM-DD HH时mm分ss秒')} 总共${list.length || 0}条`,
       datas: [
         {
-          // eslint-disable-next-line array-callback-return
+
           sheetData: (list || []).map((cell: D) => {
             columns?.forEach(({ dataIndex, render }: ExcelColumns<D>, index) => {
               // @ts-ignore
@@ -72,7 +72,7 @@ export default <D extends unknown, P extends unknown>(props: ExportExcelButtonPr
       ],
     }).saveExcel();
 
-    //生成文件
+    // 生成文件
     saveAs(file);
   }, [columns, fileName, params, runAsync]);
 

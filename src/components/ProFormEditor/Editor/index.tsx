@@ -30,7 +30,7 @@ export type IEditorProps = Partial<
   } & Omit<IEditorConfig, 'EXTEND_CONF' | 'MENU_CONF' | 'onCreated' | 'onChange'>
 >;
 
-const WangEditor = (props: IEditorProps) => {
+function WangEditor(props: IEditorProps) {
   const {
     value,
     onChange,
@@ -56,7 +56,6 @@ const WangEditor = (props: IEditorProps) => {
     toolbar,
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const editorConfig: Partial<IEditorConfig> = {
     placeholder: placeholder || '请输入内容...',
     onCreated(editorCase: IDomEditor) {
@@ -74,7 +73,8 @@ const WangEditor = (props: IEditorProps) => {
   // 及时销毁 editor ，重要！
   useEffect(() => {
     return () => {
-      if (editor === null) return;
+      if (editor === null)
+        return;
       editor.destroy();
       setEditor(null);
     };
@@ -126,8 +126,9 @@ const WangEditor = (props: IEditorProps) => {
           if (data) {
             // 从 res 中找到 url alt href ，然后插图图片
             insertFn(data, name || 'alt', data);
-          } else {
-            const imageUrl = APP_API_HOST + '/' + relativePath || url;
+          }
+          else {
+            const imageUrl = `${APP_API_HOST}/${relativePath}` || url;
             // 从 res 中找到 url alt href ，然后插图图片
             insertFn(imageUrl, name || 'alt', imageUrl);
           }
@@ -172,12 +173,13 @@ const WangEditor = (props: IEditorProps) => {
         value={value}
         onCreated={(editor: IDomEditor) => setEditor(editor)}
         onChange={(editor: IDomEditor) => {
-          if (editor.getHtml() === '<p><br></p>') onChange?.(undefined);
+          if (editor.getHtml() === '<p><br></p>')
+            onChange?.(undefined);
           onChange?.(editor.getHtml());
         }}
         mode={mode}
         className={classNames('', {
-          ['editor-container']: editorMode !== 'page',
+          'editor-container': editorMode !== 'page',
         })}
         {...rest}
       />
@@ -187,9 +189,9 @@ const WangEditor = (props: IEditorProps) => {
   if (editorMode && editorMode === 'page') {
     return (
       <>
-        <div className={'toolbar-container'}>{toolBarDom}</div>
-        <div className={'editor-content'}>
-          <div className={'editor-container'}>{editorDom}</div>
+        <div className="toolbar-container">{toolBarDom}</div>
+        <div className="editor-content">
+          <div className="editor-container">{editorDom}</div>
         </div>
       </>
     );
@@ -204,6 +206,6 @@ const WangEditor = (props: IEditorProps) => {
       {editorDom}
     </div>
   );
-};
+}
 
 export default WangEditor;

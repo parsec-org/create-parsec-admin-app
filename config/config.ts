@@ -27,7 +27,7 @@ export default defineConfig({
    * @description 一个不错的热更新组件，更新时可以保留 state
    */
   fastRefresh: true,
-  //============== 以下都是max的插件配置 ===============
+  // ============== 以下都是max的插件配置 ===============
   /**
    * @name antd 插件
    * @description 内置了 babel import 插件
@@ -119,7 +119,7 @@ export default defineConfig({
     'border-radius-base': '6px', // 组件/浮层圆角
     'checkbox-border-radius': '4px', // checkbox 圆角
   },
-  routes: routes,
+  routes,
   npmClient: 'yarn',
   clickToComponent: {},
   metas: [

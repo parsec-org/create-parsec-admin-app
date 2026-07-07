@@ -27,15 +27,15 @@ export default () => {
   const sendSmsAuthCode = useCallback(
     async (phone: string) => {
       const values = formRef.current?.getFieldsValue();
-      if (!values['phone']) {
+      if (!values.phone) {
         message.error('请输入手机号码');
         throw new Error('请输入手机号码');
       }
-      if (!isMobile(values['phone'])) {
+      if (!isMobile(values.phone)) {
         message.error('请输入正确的手机号码');
         throw new Error('请输入正确的手机号码');
       }
-      if (!values['captchaCode']) {
+      if (!values.captchaCode) {
         message.error('请输入图片验证码！');
         throw new Error('请输入图片验证码！');
       }
@@ -47,10 +47,12 @@ export default () => {
         console.log('res', res);
         if (res.code === 0) {
           message.success(`手机号 ${phone} 验证码发送成功!`);
-        } else {
+        }
+        else {
           message.error(`验证码发送失败!`);
         }
-      } catch (e) {
+      }
+      catch (e) {
         throw new Error('验证码发送失败！');
       }
     },
@@ -115,17 +117,17 @@ export default () => {
           submitButtonProps: {
             size: 'large',
             block: true,
-            loading: loading,
+            loading,
           },
         }}
       >
         <ProFormText
           fieldProps={{
             size: 'large',
-            prefix: <MobileOutlined className={'prefixIcon'} />,
+            prefix: <MobileOutlined className="prefixIcon" />,
           }}
           name="phone"
-          placeholder={'手机号'}
+          placeholder="手机号"
           rules={[
             {
               required: true,
@@ -141,7 +143,7 @@ export default () => {
           name="captchaCode"
           fieldProps={{
             size: 'large',
-            prefix: <CodeOutlined className={'prefixIcon'} />,
+            prefix: <CodeOutlined className="prefixIcon" />,
             suffix: (
               <Spin spinning={loading}>
                 <Image
@@ -156,7 +158,7 @@ export default () => {
               </Spin>
             ),
           }}
-          placeholder={'请输入图片验证码'}
+          placeholder="请输入图片验证码"
           rules={[
             {
               required: true,
@@ -167,12 +169,12 @@ export default () => {
         <ProFormCaptcha
           fieldProps={{
             size: 'large',
-            prefix: <SafetyOutlined className={'prefixIcon'} />,
+            prefix: <SafetyOutlined className="prefixIcon" />,
           }}
           captchaProps={{
             size: 'large',
           }}
-          placeholder={'请输入验证码'}
+          placeholder="请输入验证码"
           captchaTextRender={(timing, count) => {
             if (timing) {
               return `${count} ${'获取验证码'}`;
@@ -193,9 +195,9 @@ export default () => {
           name="newPwd"
           fieldProps={{
             size: 'large',
-            prefix: <LockOutlined className={'prefixIcon'} />,
+            prefix: <LockOutlined className="prefixIcon" />,
           }}
-          placeholder={'请输入新密码'}
+          placeholder="请输入新密码"
           rules={[
             {
               required: true,
@@ -206,7 +208,7 @@ export default () => {
         <div style={{ marginBlockEnd: 24 }}>&nbsp;</div>
       </ProForm>
       <Space className="action-warp">
-        <Link to={'/auth/login'}>
+        <Link to="/auth/login">
           <LeftOutlined />
           &nbsp;返回登录
         </Link>

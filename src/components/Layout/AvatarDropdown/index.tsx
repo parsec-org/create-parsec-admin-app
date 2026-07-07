@@ -2,25 +2,25 @@ import { waitTime } from '@/utils';
 import { LockOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { Dropdown, Spin } from 'antd';
-import { ItemType } from 'antd/es/menu/interface';
+import type { ItemType } from 'antd/es/menu/interface';
 import NProgress from 'nprogress';
-import { stringify } from 'querystring';
+import qs from 'qs';
 import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
 
-export type GlobalHeaderRightProps = {
+export interface GlobalHeaderRightProps {
   menu?: boolean;
   children?: React.ReactNode;
-};
+}
 
-const outLogin = async () => {
+async function outLogin() {
   await waitTime(2000);
   console.log('outLogin');
-};
+}
 /**
  * 退出登录，并且将当前的 url 保存
  */
-const loginOut = async () => {
+async function loginOut() {
   await outLogin();
   const { search, pathname } = window.location;
   const urlParams = new URL(window.location.href).searchParams;
@@ -30,12 +30,12 @@ const loginOut = async () => {
   if (window.location.pathname !== '/auth/login' && !redirect) {
     history.replace({
       pathname: '/auth/login',
-      search: stringify({
+      search: qs.stringify({
         redirect: pathname + search,
       }),
     });
   }
-};
+}
 
 const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, children }) => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -44,7 +44,7 @@ const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, children }) =>
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
-        setInitialState((s) => ({ ...s, currentUser: undefined }));
+        setInitialState(s => ({ ...s, currentUser: undefined }));
         loginOut();
         return;
       }

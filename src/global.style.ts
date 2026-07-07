@@ -2,7 +2,7 @@ import { createStyles } from 'antd-style';
 
 const useStyles = createStyles(() => {
   return {
-    colorWeak: {
+    'colorWeak': {
       filter: 'invert(80%)',
     },
     'parsec-layout': {
@@ -11,10 +11,10 @@ const useStyles = createStyles(() => {
     'parsec-pro-sider.ant-layout-sider.parsec-pro-sider-fixed': {
       left: 'unset',
     },
-    canvas: {
+    'canvas': {
       display: 'block',
     },
-    body: {
+    'body': {
       textRendering: 'optimizeLegibility',
       WebkitFontSmoothing: 'antialiased',
       MozOsxFontSmoothing: 'grayscale',
@@ -24,11 +24,11 @@ const useStyles = createStyles(() => {
     },
     '@media(max-width: 768px)': {
       'parsec-table': {
-        width: '100%',
-        overflowX: 'auto',
+        'width': '100%',
+        'overflowX': 'auto',
         '&-thead > tr,    &-tbody > tr': {
           '> th,      > td': {
-            whiteSpace: 'pre',
+            'whiteSpace': 'pre',
             '> span': {
               display: 'block',
             },

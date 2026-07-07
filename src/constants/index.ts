@@ -33,19 +33,19 @@ export const LastCashStatusMap: {
     color: 'warning',
     text: '未知状态',
   },
-  0: {
+  '0': {
     color: 'warning',
     text: '待处理',
   },
-  1: {
+  '1': {
     color: 'processing',
     text: '待提现',
   },
-  2: {
+  '2': {
     color: 'success',
     text: '提现成功',
   },
-  3: {
+  '3': {
     color: 'error',
     text: '提现失败',
   },

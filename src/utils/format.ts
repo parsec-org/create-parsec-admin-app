@@ -21,10 +21,10 @@ export const handleImageChange: UploadProps['onChange'] = (info) => {
   newFileList.map((file) => {
     if (file.status === 'done' && file.response) {
       // 组件将 file.url 显示为链接
-      if (file.response.hasOwnProperty('url') || file.response.hasOwnProperty('relativePath')) {
-        file.url = APP_API_HOST + '/' + file.response.relativePath || file.response.url;
+      if (Object.hasOwn(file.response, 'url') || Object.hasOwn(file.response, 'relativePath')) {
+        file.url = `${APP_API_HOST}/${file.response.relativePath}` || file.response.url;
       }
-      if (file.response.hasOwnProperty('data')) {
+      if (Object.hasOwn(file.response, 'data')) {
         file.url = file.response.data;
       }
     }
@@ -36,9 +36,9 @@ export const handleImageChange: UploadProps['onChange'] = (info) => {
  * 上传图标的图片预览
  * @param file
  */
-export const handlePreview = (file: UploadFile) => {
-  let src = file.url as string;
+export function handlePreview(file: UploadFile) {
+  const src = file.url as string;
   if (src) {
     previewImage({ url: src });
   }
-};
+}

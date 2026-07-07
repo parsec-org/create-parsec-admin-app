@@ -24,7 +24,7 @@ export interface UpdateFormProps {
   values: Partial<API.UserInfo>;
 }
 
-const UpdateForm: React.FC<UpdateFormProps> = (props) => (
+const UpdateForm: React.FC<UpdateFormProps> = props => (
   <StepsForm
     stepsProps={{
       size: 'small',
