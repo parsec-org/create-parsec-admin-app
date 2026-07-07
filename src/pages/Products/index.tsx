@@ -1,7 +1,7 @@
 import services from '@/services/demo';
 import type {
   ActionType,
-  ProDescriptionsItemProps,
+  ProDescriptionsColumn,
 } from '@ant-design/pro-components';
 import {
   FooterToolbar,
@@ -95,7 +95,7 @@ const TableList: React.FC<unknown> = () => {
   const actionRef = useRef<ActionType>(null);
   const [row, setRow] = useState<API.UserInfo>();
   const [selectedRowsState, setSelectedRows] = useState<API.UserInfo[]>([]);
-  const columns: ProDescriptionsItemProps<API.UserInfo>[] = [
+  const columns: ProDescriptionsColumn<API.UserInfo>[] = [
     {
       title: '名称',
       dataIndex: 'name',
