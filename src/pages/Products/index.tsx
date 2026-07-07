@@ -117,6 +117,16 @@ const TableList: React.FC<unknown> = () => {
       },
     },
     {
+      title: '创建时间',
+      dataIndex: 'createdAt',
+      valueType: 'date',
+    },
+    {
+      title: '创建时间2',
+      dataIndex: 'createdAt',
+      valueType: 'dateRange',
+    },
+    {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
