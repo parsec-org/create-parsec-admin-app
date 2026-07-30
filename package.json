@@ -66,6 +66,9 @@
     "simple-git-hooks": "^2.13.1",
     "typescript": "^6.0.3"
   },
+  "resolutions": {
+    "eslint-plugin-unicorn": "67.0.0"
+  },
   "simple-git-hooks": {
     "pre-commit": "npx eslint . --fix",
     "commit-msg": "npx --no-install commitlint --edit $1"

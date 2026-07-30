@@ -1,7 +1,7 @@
 import { Dropdown } from 'antd';
 import { createStyles } from 'antd-style';
 import type { DropDownProps } from 'antd/es/dropdown';
-import type { DropdownClassNamesType } from 'antd/es/dropdown/dropdown';
+import type { DropdownSemanticAllType } from 'antd/es/dropdown/dropdown';
 import classNames from 'classnames';
 import React from 'react';
 
@@ -16,7 +16,7 @@ const useStyles = createStyles(({ token }) => {
 });
 
 export type HeaderDropdownProps = {
-  classNames?: DropdownClassNamesType;
+  classNames?: DropdownSemanticAllType['classNamesAndFn'];
   placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topCenter' | 'topRight' | 'bottomCenter';
 } & Omit<DropDownProps, 'overlay'>;
 

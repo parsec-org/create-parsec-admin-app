@@ -3,9 +3,9 @@
 默认上传事件，具体配置参考 [ProFormUpload](https://procomponents.ant.design/components/field-set#proformuploaddragger)
 
 ```jsx
-import { ProForm } from '@ant-design/pro-components';
-import { ProFormCropUpload } from '@/components';
-import { postCommonFileUpload } from '@/services/api';
+import { ProForm } from '@ant-design/pro-components'
+import { ProFormCropUpload } from '@/components'
+import { postCommonFileUpload } from '@/services/api'
 
 export default () => {
   return (
@@ -14,7 +14,7 @@ export default () => {
         name={['pictures', 'album']}
         label="学校相册"
         max={6}
-        uploadType={'dragger'}
+        uploadType="dragger"
         rules={[{ required: true, message: '请上传学校相册' }]}
         accept="image/*"
         action={`${APP_API_HOST}/common/aliyunoss`}
@@ -29,8 +29,8 @@ export default () => {
         extra="仅限JPG、PNG格式图片，大小不超过1MB，最多支持 6 张图册"
       />
     </ProForm>
-  );
-};
+  )
+}
 ```
 
 自定义上传事件

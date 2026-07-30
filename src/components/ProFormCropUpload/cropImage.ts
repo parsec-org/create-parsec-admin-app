@@ -32,7 +32,7 @@ export default async function getCroppedImg(
   pixelCrop: { x: number; y: number; width: number; height: number },
   rotation = 0,
   flip = { horizontal: false, vertical: false },
-) {
+): Promise<string | null> {
   const image = (await createImage(imageSrc)) as HTMLImageElement;
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -50,7 +50,6 @@ export default async function getCroppedImg(
   canvas.width = bBoxWidth;
   canvas.height = bBoxHeight;
 
-  ctx.fillStyle = 'red';
   // 将画布上下文转换到中心位置，以允许围绕中心旋转和翻转
   ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
   ctx.rotate(rotRad);

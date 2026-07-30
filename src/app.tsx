@@ -6,11 +6,13 @@ import storage from '@/utils/storage';
 import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-components';
 import { PageLoading } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-layout';
-import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
+import type { RequestConfig, RuntimeConfig, RunTimeLayoutConfig } from '@umijs/max';
 import { history } from '@umijs/max';
 import dayjs from 'dayjs';
 import NProgress from 'nprogress';
 import { requestConfig } from './requestConfig';
+import React from 'react';
+import { RootProvider } from '@/libs/context';
 
 dayjs.locale('zh-cn'); // use loaded locale globally
 
@@ -222,8 +224,15 @@ export const request: RequestConfig = { ...requestConfig };
  * @param location.routes
  * @param location.action
  */
-
 export function onRouteChange({ location, clientRoutes, routes, action }: any) {
   NProgress.start();
   console.log('onRouteChange', { location, clientRoutes, routes, action });
 }
+
+/**
+ * @name rootContainer 用于包裹整个应用的根节点
+ * @param container
+ */
+export const rootContainer: RuntimeConfig['rootContainer'] = (container) => {
+  return React.createElement(RootProvider, null, container);
+};
