@@ -33,7 +33,6 @@
   "dependencies": {
     "@ant-design/icons": "^6.3.1",
     "@ant-design/pro-components": "^3.1.14-1",
-    "@ant-design/pro-layout": "^7.22.7",
     "@pansy/china-division": "^2.1.0",
     "@umijs/max": "^4.6.71",
     "@wangeditor/editor": "^5.1.23",
