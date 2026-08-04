@@ -8,16 +8,16 @@
 
 ```
 src/components/
-├── index.ts                    # 组件导出入口（重要！）
-├── ActionsWrap/               # 操作按钮组件
-├── CreateForm/                # 新建表单 Modal
+├── index.ts                    # 组件导出入口（必须！所有公共组件在此导出）
+├── ActionsWrap/               # 操作按钮组（超过3个自动折叠到"更多"菜单）
+├── CreateForm/                # 新建表单 Modal 封装
 ├── ExportExcelButton/          # Excel 导出按钮
-├── Layout/                    # 布局组件
-├── LinkButton/                # 链接按钮
-├── MoreDropdown/              # 更多下拉菜单
-├── ProFormCropUpload/         # 图片裁剪上传
-├── ProFormEditor/             # 富文本编辑器
-└── RightContent/              # 右侧内容区
+├── Guide/                     # 首页引导组件
+├── Layout/                    # 布局组件（含 AvatarDropdown 逻辑）
+├── LinkButton/                # 链接按钮（表格操作列常用）
+├── ProFormCropUpload/         # 图片裁剪上传组件
+├── ProFormEditor/             # 富文本编辑器（含 Editor 核心）
+└── RightContent/              # 右侧内容区（语言切换、帮助、头像下拉）
 ```
 
 ## 组件导出规范
@@ -28,6 +28,11 @@ src/components/
 // src/components/index.ts
 export { default as ActionsWrap } from './ActionsWrap';
 export { default as CreateForm } from './CreateForm';
+export { default as ExportExcelButton } from './ExportExcelButton';
+export { default as Guide } from './Guide';
+export { default as LinkButton } from './LinkButton';
+export { default as ProFormCropUpload } from './ProFormCropUpload';
+export { default as ProFormEditor } from './ProFormEditor';
 export type { ExcelColumns, ExportExcelButtonProps } from './ExportExcelButton';
 ```
 
@@ -36,48 +41,47 @@ export type { ExcelColumns, ExportExcelButtonProps } from './ExportExcelButton';
 ### 标准列表页结构
 
 ```
-src/pages/Users/
-├── index.tsx          # 列表页主组件
+src/pages/Module/
+├── index.tsx          # 列表页主组件（ProTable + PageContainer）
+├── index.less          # 页面样式（CSS Modules，可选）
 └── components/
-    ├── CreateForm.tsx   # 新建表单
-    └── UpdateForm.tsx   # 编辑表单
+    ├── CreateForm.tsx   # 新建表单弹窗
+    └── UpdateForm.tsx   # 编辑表单弹窗
 ```
 
 ### 列表页主组件模板
 
-```typescript
+```tsx
 import { PlusOutlined } from '@ant-design/icons';
-import { ProTable } from '@ant-design/pro-components';
+import { ProTable, PageContainer } from '@ant-design/pro-components';
+import type { ProColumns, ActionType } from '@ant-design/pro-components';
 import { Button } from 'antd';
-import type { ProColumns } from '@ant-design/pro-components';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { getUserList } from '@/services/common';
+import { LinkButton } from '@/components';
 import CreateForm from './components/CreateForm';
 import UpdateForm from './components/UpdateForm';
 
-const Users: React.FC = () => {
+const ModulePage: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [createModalVisible, setCreateModalVisible] = useState(false);
   const [updateModalVisible, setUpdateModalVisible] = useState(false);
   const [currentRow, setCurrentRow] = useState<API.User>();
 
   const columns: ProColumns<API.User>[] = [
-    {
-      title: '姓名',
-      dataIndex: 'name',
-    },
+    { title: '名称', dataIndex: 'name' },
     {
       title: '操作',
       valueType: 'option',
       render: (_, record) => [
-        <LinkButton
-          key="edit"
-          onClick={() => {
-            setCurrentRow(record);
-            setUpdateModalVisible(true);
-          }}
-        >
+        <LinkButton key="edit" onClick={() => {
+          setCurrentRow(record);
+          setUpdateModalVisible(true);
+        }}>
           编辑
+        </LinkButton>,
+        <LinkButton key="delete" danger onClick={() => handleDelete(record)}>
+          删除
         </LinkButton>,
       ],
     },
@@ -88,13 +92,9 @@ const Users: React.FC = () => {
       <ProTable
         actionRef={actionRef}
         rowKey="id"
-        search={false}
+        columns={columns}
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="create"
-            onClick={() => setCreateModalVisible(true)}
-          >
+          <Button type="primary" key="create" onClick={() => setCreateModalVisible(true)}>
             <PlusOutlined /> 新建
           </Button>,
         ]}
@@ -102,33 +102,33 @@ const Users: React.FC = () => {
           const { data } = await getUserList(params);
           return { data: data?.list, success: true, total: data?.total };
         }}
-        columns={columns}
       />
-
       <CreateForm
         modalVisible={createModalVisible}
-        onCancel={() => setCreateModalVisible(false)}
+        onCancel={() => {
+          setCreateModalVisible(false);
+          actionRef.current?.reload();
+        }}
       />
-
       <UpdateForm
         modalVisible={updateModalVisible}
         values={currentRow}
         onCancel={() => {
           setUpdateModalVisible(false);
           setCurrentRow(undefined);
+          actionRef.current?.reload();
         }}
       />
     </PageContainer>
   );
 };
 
-export default Users;
+export default ModulePage;
 ```
 
-### CreateForm 模板
+### CreateForm 模板（使用公共 CreateForm 组件封装）
 
-```typescript
-// src/pages/Users/components/CreateForm.tsx
+```tsx
 import { CreateForm } from '@/components';
 import { Form, ProFormText } from '@ant-design/pro-components';
 import React from 'react';
@@ -151,10 +151,7 @@ const CreateFormComponent: React.FC<CreateFormProps> = (props) => {
   };
 
   return (
-    <CreateForm
-      modalVisible={modalVisible}
-      onCancel={onCancel}
-    >
+    <CreateForm modalVisible={modalVisible} onCancel={onCancel}>
       <Form onFinish={handleAdd}>
         <ProFormText
           name="name"
@@ -169,10 +166,9 @@ const CreateFormComponent: React.FC<CreateFormProps> = (props) => {
 export default CreateFormComponent;
 ```
 
-### UpdateForm 模板
+### UpdateForm 模板（使用 antd Modal）
 
-```typescript
-// src/pages/Users/components/UpdateForm.tsx
+```tsx
 import { Modal } from 'antd';
 import { Form, ProFormText } from '@ant-design/pro-components';
 import React from 'react';
@@ -203,10 +199,7 @@ const UpdateFormComponent: React.FC<UpdateFormProps> = (props) => {
       onCancel={onCancel}
       footer={null}
     >
-      <Form
-        initialValues={values}
-        onFinish={handleUpdate}
-      >
+      <Form initialValues={values} onFinish={handleUpdate}>
         <ProFormText name="id" hidden />
         <ProFormText
           name="name"
@@ -225,40 +218,38 @@ export default UpdateFormComponent;
 
 ### LinkButton（链接按钮）
 
-```typescript
+表格操作列的标准按钮组件：
+
+```tsx
 import { LinkButton } from '@/components';
 
-// 在表格操作列中使用
 {
   title: '操作',
   valueType: 'option',
   render: (_, record) => [
-    <LinkButton key="edit" onClick={() => handleEdit(record)}>
-      编辑
-    </LinkButton>,
-    <LinkButton key="delete" onClick={() => handleDelete(record)}>
-      删除
-    </LinkButton>,
+    <LinkButton key="edit" onClick={() => handleEdit(record)}>编辑</LinkButton>,
+    <LinkButton key="delete" danger onClick={() => handleDelete(record)}>删除</LinkButton>,
   ],
 }
 ```
 
 ### ActionsWrap（操作按钮组）
 
-```typescript
-import { ActionsWrap } from '@/components';
+```tsx
+import { ActionsWrap, LinkButton } from '@/components';
 
 <ActionsWrap>
   <LinkButton onClick={() => handleEdit()}>编辑</LinkButton>
   <LinkButton onClick={() => handleDelete()}>删除</LinkButton>
   <LinkButton onClick={() => handleView()}>查看</LinkButton>
+  <LinkButton onClick={() => handleCopy()}>复制</LinkButton>
 </ActionsWrap>
-// 超过3个会自动折叠到"更多"菜单
+// 超过3个按钮自动折叠到"更多"菜单
 ```
 
 ### ExportExcelButton（导出按钮）
 
-```typescript
+```tsx
 import { ExportExcelButton } from '@/components';
 
 <ExportExcelButton
@@ -271,7 +262,7 @@ import { ExportExcelButton } from '@/components';
 
 ### CreateForm（新建表单 Modal）
 
-```typescript
+```tsx
 import { CreateForm } from '@/components';
 
 <CreateForm
@@ -284,64 +275,107 @@ import { CreateForm } from '@/components';
 </CreateForm>
 ```
 
+## 样式规范
+
+### Less / CSS Modules
+
+页面级样式使用 CSS Modules（`.less` 文件）：
+
+```less
+// src/pages/Module/index.less
+.container {
+  padding: 24px;
+  background: var(--parsec-color-bg-container);
+}
+```
+
+```tsx
+import styles from './index.less';
+<div className={styles.container}>...</div>
+```
+
+### Antd Token
+
+使用 Ant Design v5 的 Design Token：
+
+```tsx
+import { useToken } from 'antd';
+
+const { token } = useToken();
+<div style={{ color: token.colorPrimary }}>...</div>
+```
+
+### antd-style (css-in-js)
+
+全局样式可通过 `src/global.style.ts` 使用 `createStyles`：
+
+```tsx
+import { createStyles } from 'antd-style';
+
+const useStyles = createStyles(({ css, token }) => ({
+  wrapper: css`
+    color: ${token.colorPrimary};
+    padding: 24px;
+  `,
+}));
+```
+
+### 重要提醒
+
+- **Antd 类名前缀为 `parsec`**（非 `ant`），全局样式覆盖时使用 `.parsec-btn`、`.parsec-table` 等
+- 主题色通过 token 获取，不要硬编码颜色值
+
 ## TypeScript 类型规范
 
-### Props 类型定义
-
 ```typescript
-// 简单类型
+// 简单 Props
 interface ButtonProps {
   type: 'primary' | 'default';
   onClick: () => void;
 }
 
-// 复杂类型使用泛型
+// 泛型 Props
 interface TableProps<T> {
   dataSource: T[];
   onSelect: (row: T) => void;
 }
 
-// 使用 React.FC 或直接使用函数组件
-const MyComponent: React.FC<Props> = (props) => { ... }
-
-// 或使用箭头函数（推荐）
-const MyComponent = (props: Props) => { ... }
-```
-
-### 组件 children 类型
-
-```typescript
+// 使用 PropsWithChildren
 import type { PropsWithChildren } from 'react';
-
-// 用于包装组件
 const Wrapper: React.FC<PropsWithChildren<WrapperProps>> = (props) => {
   return <div>{props.children}</div>;
 };
 ```
 
-## 样式规范
+## 使用全局功能
 
-### Less 变量
+### 全局 modal / message
 
-项目使用 Ant Design 的 Less 变量系统，详见 `src/global.less`。
+```tsx
+import { useRootProvider } from '@/libs/context';
 
-### 组件样式
+const { modal, message } = useRootProvider();
 
-```typescript
-// 方式1: 使用 CSS Modules
-import styles from './index.less';
+modal.confirm({ title: '确认操作？' });
+message.success('操作成功');
+message.error('操作失败');
+```
 
-// 方式2: 使用 Ant Design token
-import { useToken } from 'antd';
+### 全局状态 model
 
-const MyComponent = () => {
-  const { token } = useToken();
-  return <div style={{ color: token.colorPrimary }}>...</div>;
-};
+```tsx
+import { useModel } from '@umijs/max';
+
+// 使用已有的 global model
+const { name, setName } = useModel('global');
+
+// 添加新 model 后自动可用
+const { count, setCount } = useModel('counter');
 ```
 
 ## 相关文件
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - 开发规范
-- [src/components/index.ts](../src/components/index.ts) - 组件导出
-- [src/pages/Users/index.tsx](../src/pages/Users/index.tsx) - 列表演示
+- [src/components/index.ts](../src/components/index.ts) — 组件导出入口
+- [src/libs/context/index.ts](../src/libs/context/index.ts) — 全局 Context
+- [src/global.less](../src/global.less) — 全局样式
+- [src/global.style.ts](../src/global.style.ts) — 全局 css-in-js 样式

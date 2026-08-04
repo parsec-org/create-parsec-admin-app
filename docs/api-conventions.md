@@ -2,19 +2,61 @@
 
 ## 概述
 
-本项目使用 OpenAPI 规范生成 API 服务代码，所有 API 服务位于 `src/services/` 目录。
+本项目使用 UmiJS `@umijs/max` 内置的 request 插件（基于 axios），API 服务位于 `src/services/` 目录。支持通过 OpenAPI 自动生成服务代码。
 
 ## 目录结构
 
 ```
 src/services/
 ├── index.ts           # 服务导出入口
-├── common/           # 通用 API 服务（通过 openapi 生成）
-│   ├── index.ts
-│   └── typings.d.ts
-└── demo/             # 示例 API 服务
+└── common/           # OpenAPI 生成的 API 服务
     ├── index.ts
     └── typings.d.ts
+```
+
+## 请求配置（src/requestConfig.ts）
+
+### 环境变量
+
+- **`APP_API_HOST`**：API 前缀地址，由各环境配置文件注入。非 `http` 开头的 URL 会自动拼接此前缀
+
+### 请求拦截器
+
+```
+requestInterceptors → 拼接 APP_API_HOST + Authorization token
+  → 发送请求
+    → responseInterceptors → 提取响应头 token 并存储
+      → errorThrower → 业务错误抛出 BizError
+        → errorHandler → 统一错误处理
+```
+
+### 自动处理
+
+- [x] 自动拼接 `APP_API_HOST` 前缀（非 http 开头时）
+- [x] 注入 `Authorization: Bearer <token>` 请求头
+- [x] 自动提取响应头中的 token 并存储
+- [x] 超时设置（15 秒）
+- [x] 403 状态码：弹出 Modal，确认后清除缓存并跳转登录页（保留 redirect）
+- [x] 其他 4xx/5xx：显示错误消息
+- [x] 请求异常：提示"服务器暂时没有回应"
+- [x] 发送前异常：提示"请求错误，请重新尝试"
+
+### Token 管理
+
+```typescript
+// Token 存储在 localStorage 中的 key：parsec-admin-token
+// 通过 src/constants/index.ts 中的 TOKEN 常量引用
+// 操作通过 src/utils/storage.ts 封装
+
+import storage from '@/utils/storage';
+import { TOKEN } from '@/constants';
+
+storage.get(TOKEN);   // 获取 token
+storage.set(TOKEN, value);  // 设置 token
+storage.clear();      // 清除所有缓存
+
+// Authorization 格式
+// Authorization: Bearer <token>
 ```
 
 ## 响应格式
@@ -35,10 +77,10 @@ src/services/
 
 ```typescript
 enum ErrorShowType {
-  SILENT = 0,           // 静默处理
+  SILENT = 0,           // 静默处理，不提示
   WARN_MESSAGE = 1,     // 警告消息
   ERROR_MESSAGE = 2,    // 错误消息
-  NOTIFICATION = 3,      // 通知提示
+  NOTIFICATION = 3,     // 通知提示
   REDIRECT = 404,       // 页面跳转
 }
 ```
@@ -54,11 +96,8 @@ enum ErrorShowType {
 
 ## API 命名规范
 
-### 文件命名
-- 使用 PascalCase
-- 与业务模块对应，如 `users.ts`, `orders.ts`
-
 ### 函数命名
+
 ```typescript
 // 获取列表
 export async function getXxxList() {}
@@ -76,73 +115,42 @@ export async function updateXxx() {}
 export async function deleteXxx() {}
 ```
 
-## 请求拦截器
-
-位于 `src/requestConfig.ts`，已配置：
-
-### 自动处理
-- [x] 添加 `Authorization` 头（从 storage 获取 token）
-- [x] 自动拼接 `APP_API_HOST` 前缀（非 http 开头时）
-- [x] 超时设置（15秒）
-
-### Token 格式
-```typescript
-Authorization: Bearer <token>
-```
-
-## 错误处理
-
-### HTTP 状态码处理
-
-| 状态码 | 处理方式 |
-|--------|----------|
-| 403 | 弹出 Modal 提示登录过期，跳转登录页 |
-| 其他 4xx/5xx | 显示错误消息 |
-
-### 业务错误处理
-
-```typescript
-import { useRequest } from 'ahooks';
-import { getUserList } from '@/services/common';
-
-const { data, loading, error, run } = useRequest(() => getUserList(params));
-
-if (error) {
-  // 错误已由 errorHandler 统一处理
-}
-```
-
 ## 使用示例
 
-### 生成新的 API 服务
+### 生成 API 服务
 
-1. 编写 OpenAPI 文档或 Swagger 定义
-2. 运行 `yarn openapi`
-3. 生成的代码位于 `src/services/`
-
-### 调用 API
-
-```typescript
-import { getUserList } from '@/services/common';
-import { useRequest } from 'ahooks';
-
-// Hook 方式（推荐）
-const { data, loading, run } = useRequest(
-  () => getUserList({ page: 1, pageSize: 10 }),
-  {
-    defaultParams: [{ page: 1, pageSize: 10 }],
-    refreshDeps: [],
-  }
-);
-
-// 手动调用
-const result = await getUserList({ page: 1, pageSize: 10 });
+```bash
+# 运行 OpenAPI 代码生成
+yarn openapi
 ```
 
-### 带参数的请求
+生成的代码位于 `src/services/common/` 目录。
+
+### 在页面中调用 API
 
 ```typescript
-// Query 参数
+// Hook 方式（推荐，集成 loading/error 状态）
+import { useRequest } from 'ahooks';
+import { getUserList } from '@/services/common';
+
+const { data, loading, run } = useRequest(
+  () => getUserList({ page: 1, pageSize: 10 }),
+  { refreshDeps: [] }
+);
+
+// 在 ProTable 中使用
+<ProTable
+  request={async (params) => {
+    const { data } = await getUserList(params);
+    return { data: data?.list, success: true, total: data?.total };
+  }}
+/>
+```
+
+### 请求参数说明
+
+```typescript
+// Query 参数（GET）
 export async function getUserById(
   params: { id: string },
   options?: { [key: string]: any }
@@ -154,7 +162,7 @@ export async function getUserById(
   });
 }
 
-// Body 参数
+// Body 参数（POST）
 export async function createUser(
   body: { name: string; email: string },
   options?: { [key: string]: any }
@@ -166,10 +174,14 @@ export async function createUser(
     ...(options || {}),
   });
 }
+
+// 跳过错误处理
+const result = await getUserList(params, { skipErrorHandler: true });
 ```
 
 ## 相关文件
 
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - 开发规范
-- [src/requestConfig.ts](../src/requestConfig.ts) - 请求配置
-- [src/services/common/index.ts](../src/services/common/index.ts) - API 服务示例
+- [src/requestConfig.ts](../src/requestConfig.ts) — 请求拦截配置
+- [src/constants/index.ts](../src/constants/index.ts) — TOKEN 常量
+- [src/utils/storage.ts](../src/utils/storage.ts) — 本地存储封装
+- [src/services/common/index.ts](../src/services/common/index.ts) — API 服务
