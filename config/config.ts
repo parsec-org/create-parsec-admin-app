@@ -120,7 +120,7 @@ export default defineConfig({
     'checkbox-border-radius': '4px', // checkbox 圆角
   },
   routes,
-  npmClient: 'yarn',
+  npmClient: 'pnpm',
   clickToComponent: {},
   metas: [
     {

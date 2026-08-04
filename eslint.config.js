@@ -29,5 +29,4 @@ export default antfu({
     'ts/no-require-imports': 'off',
     'react-hooks/exhaustive-deps': 'off',
   },
-  pnpm: true,
 });
