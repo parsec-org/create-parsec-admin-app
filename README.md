@@ -1,17 +1,17 @@
 # Parsec Admin
 
-基于 UmiJS v4 (@umijs/max) + Ant Design v5 + Ant Design Pro Components 的中后台管理系统模板。
+基于 UmiJS v4 (@umijs/max) + Ant Design v6 + Ant Design Pro Components 的中后台管理系统模板。
 
 ## 技术栈
 
-| 类别 | 技术 |
-|------|------|
-| 框架 | [UmiJS v4](https://umijs.org/) (@umijs/max) |
-| UI 库 | [Ant Design v5](https://ant.design/) + [Pro Components](https://procomponents.ant.design/) |
-| 状态管理 | @umijs/max model + vstores |
-| 语言 | TypeScript |
-| 样式 | Less + antd-style (css-in-js) + CSS Modules |
-| 构建 | esbuild (UmiJS 内置) |
+| 类别 | 技术                                                                                       |
+|------|--------------------------------------------------------------------------------------------|
+| 框架 | [UmiJS v4](https://umijs.org/) (@umijs/max)                                                |
+| UI 库 | [Ant Design v6](https://ant.design/) + [Pro Components](https://procomponents.ant.design/) |
+| 状态管理 | @umijs/max model + vstores                                                                 |
+| 语言 | TypeScript                                                                                 |
+| 样式 | Less + antd-style (css-in-js) + CSS Modules                                                |
+| 构建 | esbuild (UmiJS 内置)                                                                       |
 
 ## 快速开始
 
@@ -96,7 +96,7 @@ yarn build:staging
 ## 核心特性
 
 - **UmiJS v4 Max**：企业级架构，集成路由、请求、国际化、权限等
-- **Antd v5 Design Token**：基于 Design Token 的主题定制，自定义 `parsec` 类名前缀
+- **Antd v6 Design Token**：基于 Design Token 的主题定制，自定义 `parsec` 类名前缀
 - **Ant Design Pro Components**：ProTable、ProForm、PageContainer 等高级组件
 - **OpenAPI 代码生成**：自动生成 API 服务 TypeScript 代码
 - **完整认证授权**：Token 拦截、403 处理、菜单权限控制
@@ -127,6 +127,6 @@ git commit -m "chore: 更新依赖版本"
 
 - [UmiJS v4 文档](https://umijs.org/docs)
 - [@umijs/max 文档](https://umijs.org/docs/max/introduce)
-- [Ant Design v5](https://ant.design/index-cn)
+- [Ant Design v6](https://ant.design/index-cn)
 - [Ant Design Pro Components](https://procomponents.ant.design/)
 - [Ant Design Icons](https://ant.design/components/icon-cn)

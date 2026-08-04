@@ -2,19 +2,19 @@
 
 ## 项目概述
 
-基于 **UmiJS v4 (@umijs/max)** + **Ant Design v5** + **Ant Design Pro Components** 的中后台管理系统模板。
+基于 **UmiJS v4 (@umijs/max)** + **Ant Design v6** + **Ant Design Pro Components** 的中后台管理系统模板。
 
-| 技术栈 | 说明 |
-|--------|------|
-| 框架 | UmiJS v4 (@umijs/max) |
-| UI | Ant Design v5 + Ant Design Pro Components |
-| 语言 | TypeScript |
-| 状态管理 | @umijs/max model (基于 React Context + hook) |
+| 技术栈 | 说明                                                |
+|--------|-----------------------------------------------------|
+| 框架 | UmiJS v4 (@umijs/max)                               |
+| UI | Ant Design v6 + Ant Design Pro Components           |
+| 语言 | TypeScript                                          |
+| 状态管理 | @umijs/max model (基于 React Context + hook)        |
 | 请求库 | @umijs/max request (基于 axios + ahooks useRequest) |
-| 国际化 | @umijs/max locale (zh-CN / en-US) |
-| 样式方案 | Less + antd-style (css-in-js) + CSS Modules |
-| 包管理器 | Yarn |
-| 代码规范 | @antfu/eslint-config + Conventional Commits |
+| 国际化 | @umijs/max locale (zh-CN / en-US)                   |
+| 样式方案 | Less + antd-style (css-in-js) + CSS Modules         |
+| 包管理器 | Yarn                                                |
+| 代码规范 | @antfu/eslint-config + Conventional Commits         |
 
 ## 开发命令
 
@@ -184,7 +184,7 @@ export default (initialState: API.UserInfo) => {
 
 主题色通过两套系统同步配置：
 
-- **Antd v5 Design Token**（`antd.theme.token`）：`colorPrimary: '#2F54EB'`, `borderRadius: 6`
+- **Antd v6 Design Token**（`antd.theme.token`）：`colorPrimary: '#2F54EB'`, `borderRadius: 6`
 - **Legacy Less 变量**（`theme`）：`primary-color: '#2F54EB'`, `border-radius-base: '6px'`
 
 两套配置需保持同步。

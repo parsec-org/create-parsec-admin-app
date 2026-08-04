@@ -196,7 +196,7 @@ yarn openapi
 
 - [UmiJS v4 文档](https://umijs.org/docs)
 - [@umijs/max 文档](https://umijs.org/docs/max/introduce)
-- [Ant Design v5 文档](https://ant.design/index-cn)
+- [Ant Design v6 文档](https://ant.design/index-cn)
 - [Ant Design Pro Components](https://procomponents.ant.design/)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 - [@antfu/eslint-config](https://github.com/antfu/eslint-config)

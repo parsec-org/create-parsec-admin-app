@@ -296,7 +296,7 @@ import styles from './index.less';
 
 ### Antd Token
 
-使用 Ant Design v5 的 Design Token：
+使用 Ant Design v6 的 Design Token：
 
 ```tsx
 import { useToken } from 'antd';

@@ -44,7 +44,7 @@ export default defineConfig({
     // less or css, default less
     style: 'less',
     // shortcut of `configProvider.theme`
-    // use to configure theme token, antd v5 only
+    // use to configure theme token, antd v6 only
     theme: {
       token: {
         // Seed Token，影响范围大
