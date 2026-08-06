@@ -17,16 +17,16 @@
 
 ```bash
 # 安装依赖
-yarn install
+pnpm install
 
 # 启动开发服务器（默认端口 8000，自动启用 mock）
-yarn dev
+pnpm run dev
 
 # 构建生产版本
-yarn build
+pnpm run build
 
 # 构建预发布版本
-yarn build:staging
+pnpm run build:staging
 ```
 
 ## 项目结构
@@ -87,11 +87,11 @@ yarn build:staging
 
 | 命令 | 说明 |
 |------|------|
-| `yarn dev` | 启动开发服务器 |
-| `yarn build` | 构建生产版本 |
-| `yarn build:staging` | 构建预发布版本 |
-| `yarn lint` | 代码检查 & 自动修复 |
-| `yarn openapi` | 生成 API 服务代码 |
+| `pnpm run dev` | 启动开发服务器 |
+| `pnpm run build` | 构建生产版本 |
+| `pnpm run build:staging` | 构建预发布版本 |
+| `pnpm run lint` | 代码检查 & 自动修复 |
+| `pnpm run openapi` | 生成 API 服务代码 |
 
 ## 核心特性
 

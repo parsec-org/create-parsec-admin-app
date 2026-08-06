@@ -121,7 +121,7 @@ export async function deleteXxx() {}
 
 ```bash
 # 运行 OpenAPI 代码生成
-yarn openapi
+pnpm run openapi
 ```
 
 生成的代码位于 `src/services/common/` 目录。

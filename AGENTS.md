@@ -13,26 +13,26 @@
 | 请求库 | @umijs/max request (基于 axios + ahooks useRequest) |
 | 国际化 | @umijs/max locale (zh-CN / en-US)                   |
 | 样式方案 | Less + antd-style (css-in-js) + CSS Modules         |
-| 包管理器 | Yarn                                                |
+| 包管理器 | pnpm                                                |
 | 代码规范 | @antfu/eslint-config + Conventional Commits         |
 
 ## 开发命令
 
 ```bash
 # 安装依赖
-yarn install
+pnpm install
 
 # 开发模式（默认启用 mock，访问 http://localhost:8000）
-yarn dev
+pnpm run dev
 
 # 生产构建
-yarn build
+pnpm run build
 
 # 代码检查 & 自动修复
-yarn lint
+pnpm run lint
 
 # OpenAPI 代码生成
-yarn openapi
+pnpm run openapi
 ```
 
 ## 项目结构
@@ -359,4 +359,4 @@ message.success('操作成功');
 - **组件导出**：公共组件必须在 `src/components/index.ts` 中统一导出
 - **Token 存储**：通过 `storage.get(TOKEN)` / `storage.set(TOKEN, value)` 操作，禁止直接使用 `localStorage`
 - **主题色修改**：需同时修改 `antd.theme.token` 和 `theme` 两处配置
-- **OpenAPI 生成**：运行 `yarn openapi` 后代码生成到 `src/services/common/`
+- **OpenAPI 生成**：运行 `pnpm run openapi` 后代码生成到 `src/services/common/`

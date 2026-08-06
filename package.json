@@ -21,7 +21,7 @@
     "postinstall": "max setup",
     "openapi": "openapi2ts & pnpm run lint",
     "setup": "max setup",
-    "start": "yarn dev",
+    "start": "pnpm run dev",
     "lint": "eslint . --fix",
     "prepare": "simple-git-hooks"
   },

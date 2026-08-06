@@ -3,25 +3,25 @@
 ## 环境要求
 
 - Node.js >= 20.17.0
-- Yarn（推荐）或 pnpm
+- pnpm
 
 ## 快速开始
 
 ```bash
 # 安装依赖
-yarn install
+pnpm install
 
 # 启动开发服务器（默认端口 8000）
-yarn dev
+pnpm run dev
 
 # 生产构建
-yarn build
+pnpm run build
 
 # 代码检查 & 自动修复
-yarn lint
+pnpm run lint
 
 # OpenAPI 代码生成
-yarn openapi
+pnpm run openapi
 ```
 
 ## 开发环境说明
@@ -179,7 +179,7 @@ SKIP_SIMPLE_GIT_HOOKS=1 git commit -m "xxx"
 
 ```bash
 # 更新 OpenAPI 定义后重新生成
-yarn openapi
+pnpm run openapi
 ```
 
 或手动在 `src/services/` 下添加服务文件。

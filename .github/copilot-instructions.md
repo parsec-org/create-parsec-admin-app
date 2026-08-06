@@ -16,19 +16,19 @@ UmiJS v4 + Ant Design Pro Components 中后台管理系统模板
 
 ### 1. 安装 & 启动
 ```bash
-yarn install
-yarn dev
+pnpm  install
+pnpm run dev
 ```
 
 ### 2. 代码规范
-- 运行 `yarn lint` 自动修复格式问题
+- 运行 `pnpm run lint` 自动修复格式问题
 - 提交前确保 lint 通过
 - 使用 Conventional Commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`
 
 ### 3. 关键限制
 - **Node.js 22+**: 使用 `qs.stringify()` 而非 `node:querystring`
 - **国际化**: 所有显示文本使用 `src/locales/zh-CN.ts` 中的 key
-- **API 生成**: 使用 `yarn openapi` 生成服务代码
+- **API 生成**: 使用 `pnpm run openapi` 生成服务代码
 
 ## 快速参考
 
