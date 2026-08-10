@@ -12,10 +12,15 @@ import { Question, SelectLang } from './RightContent';
 import { AvatarDropdown, AvatarName } from './RightContent/AvatarDropdown';
 
 export { default as ActionsWrap } from './ActionsWrap';
+
 /**
  * 富文本编辑器
  */
 export { default as CreateForm } from './CreateForm';
+/**
+ * 错误边界
+ */
+export { default as ErrorBoundary } from './ErrorBoundary';
 /**
  * 根据table数据导出excel文件
  */
@@ -29,6 +34,11 @@ export * from './Layout';
  * 链接按钮
  */
 export { default as LinkButton } from './LinkButton';
+
+/**
+ * 离线提示
+ */
+export { default as OfflineBanner } from './OfflineBanner';
 /**
  * 图片上传裁剪组件
  */

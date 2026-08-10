@@ -25,8 +25,14 @@ pnpm install
 # 开发模式（默认启用 mock，访问 http://localhost:8000）
 pnpm run dev
 
-# 生产构建
+# staging 开发模式
+pnpm run dev:staging
+
+# 构建 staging 版本
 pnpm run build
+
+# 构建 production 版本
+pnpm run build:production
 
 # 代码检查 & 自动修复
 pnpm run lint
@@ -63,10 +69,12 @@ src/
 │   ├── index.ts            # 组件统一导出入口
 │   ├── ActionsWrap/        # 操作按钮组（超过3个自动折叠）
 │   ├── CreateForm/         # 新建表单 Modal 封装
+│   ├── ErrorBoundary/      # 全局错误边界组件
 │   ├── ExportExcelButton/   # Excel 导出按钮
 │   ├── Guide/              # 首页引导组件
 │   ├── Layout/             # 布局相关（含 AvatarDropdown 逻辑）
 │   ├── LinkButton/         # 链接按钮
+│   ├── OfflineBanner/      # 离线提示横幅组件
 │   ├── ProFormCropUpload/  # 图片裁剪上传组件
 │   ├── ProFormEditor/      # 富文本编辑器（含 Editor 核心）
 │   └── RightContent/       # 顶部右侧内容区（语言切换、帮助、头像下拉）
@@ -82,7 +90,7 @@ src/
 ├── constants/              # 常量定义
 │   └── index.ts            # 默认名称、Token Key、状态映射、颜色列表等
 ├── libs/                   # 公共库
-│   └── context/            # React Context Provider（modal, message 全局注入）
+│   └── context/            # React Context Provider（RootProvider：OfflineBanner + ErrorBoundary 包裹）
 ├── locales/                # 国际化文件
 │   ├── zh-CN.ts            # 中文（默认）
 │   └── en-US.ts            # 英文
@@ -195,20 +203,30 @@ export default (initialState: API.UserInfo) => {
 - 菜单类型：`sub`（子菜单模式）
 - 暗色主题支持：通过 SettingDrawer 开启
 - 水印：显示当前用户名
-- 菜单页脚：显示版权信息 © 2025 Parsec.com.cn
+- 菜单页脚：显示版权信息 `© 2025 Made with love by Parsec.com.cn`
 - 设置面板：仅在非生产环境且非登录页显示
+- 标题渲染：根据 `process.env.UMI_ENV` 拼装环境标签（省略 production 标识）
+- `fetchUserInfo()`：当前使用模拟数据（`adminName`、`realName`、`loginName`、`roleId` 等字段），正式上线需替换
 
-### 8. RootProvider 全局注入 (src/libs/context)
+### 8. RootProvider 全局包裹 (src/libs/context)
 
-通过 `rootContainer` 包裹整个应用，提供全局的 `modal` 和 `message` 实例：
+通过 `rootContainer` 包裹整个应用，提供：
 
-```typescript
-import { useRootProvider } from '@/libs/context';
+- **`OfflineBanner`**：检测网络状态，离线时展示横幅提示
+- **`ErrorBoundary`**：捕获子组件渲染错误，展示友好的错误回退界面
 
-const MyComponent = () => {
-  const { modal, message } = useRootProvider();
-  // 使用 modal.confirm / message.success 等
-};
+```tsx
+// src/libs/context/RootProvider.tsx
+import { ErrorBoundary, OfflineBanner } from '@/components';
+
+const RootProvider: React.FC<React.PropsWithChildren> = ({ children }) => (
+  <Context.Provider value={null}>
+    <OfflineBanner />
+    <ErrorBoundary>
+      {children}
+    </ErrorBoundary>
+  </Context.Provider>
+);
 ```
 
 ## 路由配置
@@ -217,21 +235,25 @@ const MyComponent = () => {
 
 ### 当前路由表
 
+路由使用父子结构，菜单由父路由的 `name`/`icon` 控制聚合展示，子路由的 `name` 对应 `locales` 中的子菜单文案。
+
 | 路由 | name | icon | 说明 |
 |------|------|------|------|
-| `/auth/login` | login | - | 登录页，无 layout |
-| `/auth/forget-password` | reset-password | - | 忘记密码，无 layout |
-| `/home` | home | HomeOutlined | 首页 |
-| `/access` | access | SafetyOutlined | 权限页，隐藏菜单 |
+| `/auth` | - | - | 认证模块父路由（不显示在菜单中） |
+| `/auth/login` | login | - | 登录页，`layout: false`（无布局） |
+| `/auth/forget-password` | reset-password | - | 忘记密码，`layout: false`（无布局） |
+| `/home` | home | HomeOutlined | 首页仪表盘 |
+| `/access` | access | SafetyOutlined | 权限页，`hideInMenu: true` |
 | `/products` | products | ProductOutlined | 产品管理 |
 | `/orders` | orders | FileDoneOutlined | 订单管理 |
 | `/users` | users | TeamOutlined | 用户管理 |
 | `/managers` | managers | UserOutlined | 管理员管理 |
-| `/profile/account` | account | IdcardOutlined | 个人中心-我的账号 |
-| `/profile/change-password` | change-password | - | 个人中心-修改密码 |
-| `/profile/settings` | settings | - | 个人中心-个人设置 |
-| `/` | - | - | 重定向到 /home |
-| `*` | - | - | 404 页面 |
+| `/profile` | profile | IdcardOutlined | 个人中心父路由（聚合子菜单） |
+| `/profile/account` | profile.account | - | 个人中心-我的账号 |
+| `/profile/change-password` | profile.change-password | - | 个人中心-修改密码 |
+| `/profile/settings` | profile.settings | - | 个人中心-个人设置 |
+| `/` | - | - | 重定向到 `/home` |
+| `*` | - | - | 404 错误页面 |
 
 ### 路由配置常用属性
 
@@ -342,18 +364,20 @@ const { count, setCount } = useModel('counter');
 
 ### 使用全局 modal / message
 
+直接使用 antd 的静态方法即可（由 `ConfigProvider` 全局提供 `prefixCls`）：
+
 ```tsx
-import { useRootProvider } from '@/libs/context';
+import { Modal, message } from 'antd';
 
-const { modal, message } = useRootProvider();
-
-modal.confirm({ title: '确认删除？' });
+Modal.confirm({ title: '确认删除？' });
 message.success('操作成功');
 ```
 
 ## 注意事项
 
 - **Antd 类名前缀**：所有样式覆盖需使用 `.parsec-` 而非 `.ant-`
+- **ErrorBoundary**：全局错误边界已通过 RootProvider 注入，页面内部无需重复包裹
+- **OfflineBanner**：离线横幅已通过 RootProvider 全局注入，自动检测网络状态
 - **URL 查询参数**：使用 `qs.stringify()` 处理（Node.js 22+ 已移除 `node:querystring`）
 - **国际化文本**：使用 `locales/` 目录下的文件，不要硬编码中文
 - **组件导出**：公共组件必须在 `src/components/index.ts` 中统一导出

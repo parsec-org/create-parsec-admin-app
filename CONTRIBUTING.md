@@ -14,8 +14,14 @@ pnpm install
 # 启动开发服务器（默认端口 8000）
 pnpm run dev
 
-# 生产构建
+# 启动 staging 开发模式
+pnpm run dev:staging
+
+# 构建 staging 版本
 pnpm run build
+
+# 构建 production 版本
+pnpm run build:production
 
 # 代码检查 & 自动修复
 pnpm run lint

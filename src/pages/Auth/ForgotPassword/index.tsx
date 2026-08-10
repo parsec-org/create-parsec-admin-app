@@ -11,8 +11,7 @@ import type { ProFormInstance } from '@ant-design/pro-components';
 import { ProForm, ProFormCaptcha, ProFormText } from '@ant-design/pro-components';
 import { history, Link } from '@umijs/max';
 import { useRequest, useTitle } from 'ahooks';
-import { Button, Image, Modal, Result, Space, Spin } from 'antd';
-import { useRootProvider } from '@/libs/context';
+import { App, Button, Image, Modal, Result, Space, Spin } from 'antd';
 import NProgress from 'nprogress';
 import { useCallback, useRef } from 'react';
 import logo from '@/assets/umay-logo.png';
@@ -20,7 +19,7 @@ import useStyles, { captchaImage, formBottomSpacer, hiddenOkButton, logoImage } 
 
 export default () => {
   useTitle('秒差距中后台管理系统-重置密码');
-  const { message } = useRootProvider();
+  const { message } = App.useApp();
   const { styles } = useStyles();
   const formRef = useRef<ProFormInstance>(undefined);
   const { loading, data, refresh } = useRequest<API.AuthCodeVo, any>(getPublicAuthCode, {

@@ -11,7 +11,7 @@
 | 状态管理 | @umijs/max model + vstores                                                                 |
 | 语言 | TypeScript                                                                                 |
 | 样式 | Less + antd-style (css-in-js) + CSS Modules                                                |
-| 构建 | esbuild (UmiJS 内置)                                                                       |
+| 构建 | esbuild + granularChunks 分包                                                              |
 
 ## 快速开始
 
@@ -22,11 +22,14 @@ pnpm install
 # 启动开发服务器（默认端口 8000，自动启用 mock）
 pnpm run dev
 
-# 构建生产版本
+# 启动 staging 开发服务器
+pnpm run dev:staging
+
+# 构建 staging 版本
 pnpm run build
 
-# 构建预发布版本
-pnpm run build:staging
+# 构建 production 版本
+pnpm run build:production
 ```
 
 ## 项目结构
@@ -53,10 +56,12 @@ pnpm run build:staging
 │   ├── components/          # 公共组件
 │   │   ├── ActionsWrap/     # 操作按钮组（自动折叠）
 │   │   ├── CreateForm/      # 新建表单 Modal
+│   │   ├── ErrorBoundary/   # 全局错误边界
 │   │   ├── ExportExcelButton/ # Excel 导出
 │   │   ├── Guide/           # 首页引导组件
 │   │   ├── Layout/          # 布局组件
 │   │   ├── LinkButton/      # 链接按钮
+│   │   ├── OfflineBanner/   # 离线提示横幅
 │   │   ├── ProFormCropUpload/ # 图片裁剪上传
 │   │   ├── ProFormEditor/   # 富文本编辑器
 │   │   └── RightContent/    # 右侧内容区
@@ -87,9 +92,10 @@ pnpm run build:staging
 
 | 命令 | 说明 |
 |------|------|
-| `pnpm run dev` | 启动开发服务器 |
-| `pnpm run build` | 构建生产版本 |
-| `pnpm run build:staging` | 构建预发布版本 |
+| `pnpm run dev` | 启动开发服务器（development 环境，默认启用 mock） |
+| `pnpm run dev:staging` | 启动开发服务器（staging 环境） |
+| `pnpm run build` | 构建 staging 版本 |
+| `pnpm run build:production` | 构建 production 版本 |
 | `pnpm run lint` | 代码检查 & 自动修复 |
 | `pnpm run openapi` | 生成 API 服务代码 |
 
@@ -102,6 +108,8 @@ pnpm run build:staging
 - **完整认证授权**：Token 拦截、403 处理、菜单权限控制
 - **国际化**：zh-CN / en-US 双语言支持
 - **多环境配置**：development / staging / production
+- **全局错误边界**：ErrorBoundary 捕获渲染错误，提供友好回退界面
+- **离线检测**：OfflineBanner 自动检测网络状态并提示
 - **代码分包**：granularChunks 策略优化加载性能
 
 ## 代码规范

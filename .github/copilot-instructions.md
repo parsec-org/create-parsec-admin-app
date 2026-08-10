@@ -8,16 +8,19 @@ UmiJS v4 + Ant Design Pro Components 中后台管理系统模板
 
 - **框架**: UmiJS v4 (Max)
 - **UI 库**: Ant Design v6 + Pro Components
-- **状态管理**: ahooks + vstores
-- **语言**: TypeScript 6
-- **样式**: Less + CSS Modules
+- **状态管理**: @umijs/max model + vstores
+- **语言**: TypeScript
+- **样式**: Less + antd-style (css-in-js) + CSS Modules
 
 ## 开发工作流
 
 ### 1. 安装 & 启动
 ```bash
 pnpm  install
-pnpm run dev
+pnpm run dev            # development 环境
+pnpm run dev:staging    # staging 环境
+pnpm run build          # 构建 staging 版本
+pnpm run build:production  # 构建 production 版本
 ```
 
 ### 2. 代码规范
@@ -38,6 +41,8 @@ pnpm run dev
 | API 服务 | `src/services/` (通过 openapi 生成) |
 | 组件导出 | `src/components/index.ts` |
 | 国际化 | `src/locales/zh-CN.ts` |
+| 全局错误边界 | `src/components/ErrorBoundary/`（RootProvider 自动注入） |
+| 离线检测 | `src/components/OfflineBanner/`（RootProvider 自动注入） |
 
 ## 文档
 

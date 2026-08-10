@@ -11,10 +11,12 @@ src/components/
 ├── index.ts                    # 组件导出入口（必须！所有公共组件在此导出）
 ├── ActionsWrap/               # 操作按钮组（超过3个自动折叠到"更多"菜单）
 ├── CreateForm/                # 新建表单 Modal 封装
+├── ErrorBoundary/             # 全局错误边界（捕获渲染错误，展示友好回退）
 ├── ExportExcelButton/          # Excel 导出按钮
 ├── Guide/                     # 首页引导组件
 ├── Layout/                    # 布局组件（含 AvatarDropdown 逻辑）
 ├── LinkButton/                # 链接按钮（表格操作列常用）
+├── OfflineBanner/             # 离线提示横幅（自动检测网络状态）
 ├── ProFormCropUpload/         # 图片裁剪上传组件
 ├── ProFormEditor/             # 富文本编辑器（含 Editor 核心）
 └── RightContent/              # 右侧内容区（语言切换、帮助、头像下拉）
@@ -28,12 +30,14 @@ src/components/
 // src/components/index.ts
 export { default as ActionsWrap } from './ActionsWrap';
 export { default as CreateForm } from './CreateForm';
+export { default as ErrorBoundary } from './ErrorBoundary';
 export { default as ExportExcelButton } from './ExportExcelButton';
-export { default as Guide } from './Guide';
 export { default as LinkButton } from './LinkButton';
+export { default as OfflineBanner } from './OfflineBanner';
 export { default as ProFormCropUpload } from './ProFormCropUpload';
 export { default as ProFormEditor } from './ProFormEditor';
 export type { ExcelColumns, ExportExcelButtonProps } from './ExportExcelButton';
+export * from './Layout';
 ```
 
 ## 页面组件模式
@@ -349,14 +353,36 @@ const Wrapper: React.FC<PropsWithChildren<WrapperProps>> = (props) => {
 
 ## 使用全局功能
 
-### 全局 modal / message
+### ErrorBoundary（错误边界）
+
+通过 RootProvider 全局注入，自动捕获子组件渲染错误，展示友好回退界面。页面级别无需手动包裹。
 
 ```tsx
-import { useRootProvider } from '@/libs/context';
+// RootProvider 中已全局注入，无需手动使用
+// 如需自定义错误回退界面：
+import { ErrorBoundary } from '@/components';
 
-const { modal, message } = useRootProvider();
+<ErrorBoundary>
+  <YourComponent />
+</ErrorBoundary>
+```
 
-modal.confirm({ title: '确认操作？' });
+### OfflineBanner（离线提示）
+
+通过 RootProvider 全局注入，自动检测网络状态。离线时显示横幅提示，网络恢复后自动隐藏。
+
+```tsx
+// RootProvider 中已全局注入，无需手动使用
+```
+
+### 全局 modal / message
+
+直接使用 antd 静态方法即可：
+
+```tsx
+import { Modal, message } from 'antd';
+
+Modal.confirm({ title: '确认操作？' });
 message.success('操作成功');
 message.error('操作失败');
 ```
