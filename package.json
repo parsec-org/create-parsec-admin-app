@@ -10,7 +10,7 @@
     "url": "{{git}}"
   },
   "engines": {
-    "node": ">=20.17.0"
+    "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "max dev",
@@ -31,43 +31,43 @@
     "> 1%"
   ],
   "dependencies": {
-    "@ant-design/icons": "^6.3.1",
+    "@ant-design/icons": "^6.3.4",
     "@ant-design/pro-components": "3.1.15-7",
     "@pansy/china-division": "^2.1.0",
-    "@umijs/max": "^4.6.71",
+    "@umijs/max": "^4.7.25",
     "@wangeditor/editor": "^5.1.23",
     "@wangeditor/editor-for-react": "^1.0.6",
-    "ahooks": "^3.9.7",
-    "antd": "^6.5.0",
+    "ahooks": "^3.10.0",
+    "antd": "^6.6.7",
     "antd-style": "^4.1.0",
     "classnames": "^2.5.1",
-    "dayjs": "^1.11.21",
+    "dayjs": "^1.11.23",
     "file-saver": "^2.0.5",
     "js-export-excel": "^1.1.4",
     "nprogress": "^0.2.0",
-    "qs": "^6.15.3",
-    "react-easy-crop": "^6.1.0",
+    "qs": "^6.16.1",
+    "react-easy-crop": "^6.2.4",
     "vstores": "^0.0.17"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^9.1.0",
-    "@commitlint/cli": "^19.8.0",
-    "@commitlint/config-conventional": "^19.8.0",
+    "@antfu/eslint-config": "^9.5.1",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "@types/file-saver": "^2.0.7",
     "@types/nprogress": "^0.2.3",
     "@types/qs": "^6.15.1",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "@umijs/openapi": "^1.14.1",
-    "eslint": "^10.6.0",
+    "eslint": "^10.13.0",
     "eslint-plugin-format": "^2.0.1",
     "less-loader": "^13.0.0",
-    "lint-staged": "^17.3.0",
-    "simple-git-hooks": "^2.13.1",
+    "lint-staged": "^17.6.0",
+    "simple-git-hooks": "^2.14.0",
     "typescript": "^6.0.3"
   },
   "resolutions": {
-    "eslint-plugin-unicorn": "67.0.0"
+    "eslint-plugin-unicorn": "^74.0.0"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",
