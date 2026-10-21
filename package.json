@@ -46,6 +46,8 @@
     "js-export-excel": "^1.1.4",
     "nprogress": "^0.2.0",
     "qs": "^6.16.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "react-easy-crop": "^6.2.4",
     "vstores": "^0.0.17"
   },
@@ -67,7 +69,9 @@
     "typescript": "^6.0.3"
   },
   "resolutions": {
-    "eslint-plugin-unicorn": "^74.0.0"
+    "eslint-plugin-unicorn": "^74.0.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged",

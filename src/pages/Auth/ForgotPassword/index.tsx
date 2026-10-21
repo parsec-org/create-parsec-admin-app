@@ -14,7 +14,7 @@ import { useRequest, useTitle } from 'ahooks';
 import { App, Button, Image, Modal, Result, Space, Spin } from 'antd';
 import NProgress from 'nprogress';
 import { useCallback, useRef } from 'react';
-import logo from '@/assets/umay-logo.png';
+import logo from '@/assets/parsec-logo.svg';
 import useStyles, { captchaImage, formBottomSpacer, hiddenOkButton, logoImage } from './styles';
 
 export default () => {
