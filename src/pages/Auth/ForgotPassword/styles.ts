@@ -1,6 +1,6 @@
 import { createStyles } from 'antd-style';
 import React from 'react';
-
+import bg from '@/assets/bg.png';
 /**
  * Auth/ForgotPassword 页面样式
  * 从 index.less 迁移至 antd-style createStyles
@@ -11,7 +11,7 @@ const useStyles = createStyles(({ token, css }) => ({
     width: 100%;
     height: 100vh;
     overflow: hidden;
-    background: url('@/assets/bg.png') center center no-repeat;
+    background: url(${bg}) center center no-repeat;
     background-size: cover;
 
     .header {
