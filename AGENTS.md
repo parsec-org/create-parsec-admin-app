@@ -4,17 +4,19 @@
 
 基于 **UmiJS v4 (@umijs/max)** + **Ant Design v6** + **Ant Design Pro Components** 的中后台管理系统模板。
 
-| 技术栈 | 说明                                                |
-|--------|-----------------------------------------------------|
-| 框架 | UmiJS v4 (@umijs/max)                               |
-| UI | Ant Design v6 + Ant Design Pro Components           |
-| 语言 | TypeScript                                          |
-| 状态管理 | @umijs/max model (基于 React Context + hook)        |
-| 请求库 | @umijs/max request (基于 axios + ahooks useRequest) |
-| 国际化 | @umijs/max locale (zh-CN / en-US)                   |
-| 样式方案 | Less + antd-style (css-in-js) + CSS Modules         |
-| 包管理器 | pnpm                                                |
-| 代码规范 | @antfu/eslint-config + Conventional Commits         |
+| 技术栈   | 说明                                                               |
+| -------- | ------------------------------------------------------------------ |
+| 框架     | UmiJS v4 (@umijs/max v4.7)                                         |
+| UI       | Ant Design v6 + Ant Design Pro Components v3                       |
+| React    | React 19（umi 内部固定 18.3.1，由 pnpm `resolutions` 覆盖到 19.x） |
+| 运行时   | Node.js >= 22.12.0                                                 |
+| 语言     | TypeScript                                                         |
+| 状态管理 | @umijs/max model (基于 React Context + hook)                       |
+| 请求库   | @umijs/max request (基于 axios + ahooks useRequest)                |
+| 国际化   | @umijs/max locale (zh-CN / en-US)                                  |
+| 样式方案 | Less + antd-style (css-in-js) + CSS Modules                        |
+| 包管理器 | pnpm                                                               |
+| 代码规范 | @antfu/eslint-config + Conventional Commits                        |
 
 ## 开发命令
 
@@ -22,7 +24,7 @@
 # 安装依赖
 pnpm install
 
-# 开发模式（默认启用 mock，访问 http://localhost:8000）
+# 开发模式（默认启用 mock，端口取自 .env 的 PORT，默认 http://localhost:3000）
 pnpm run dev
 
 # staging 开发模式
@@ -86,6 +88,7 @@ src/
 ├── utils/                  # 工具函数
 │   ├── index.ts            # 生命周期工具（waitTime, DateFormats 等）
 │   ├── format.ts           # 格式化工具（身份证、手机号、验证等）
+│   ├── previewImage.tsx    # 编程式图片预览（antd Image + createRoot）
 │   └── storage.ts          # 本地存储封装（基于 vstores）
 ├── constants/              # 常量定义
 │   └── index.ts            # 默认名称、Token Key、状态映射、颜色列表等
@@ -228,6 +231,35 @@ const RootProvider: React.FC<React.PropsWithChildren> = ({ children }) => (
   </Context.Provider>
 );
 ```
+
+读取该 Context 时使用 React 19 的 `use()`，而非 `useContext()`：
+
+```tsx
+import { createContext, use } from 'react';
+
+const Context = createContext(null);
+
+// React 19 起可用 use() 读取 context
+export const useRootProvider = () => use(Context);
+```
+
+### 9. 编程式图片预览 (src/utils/previewImage.tsx)
+
+用于在不依赖组件的场景（如 `beforeUpload` 校验、自定义触发按钮）直接弹出图片预览：
+
+```tsx
+import previewImage from '@/utils/previewImage';
+
+const { destroy } = previewImage({ url: 'https://example.com/a.png' });
+destroy(); // 手动关闭
+```
+
+实现要点：
+
+- 使用 antd v6 公开的 `Image` 组件 + `preview={{ open, onOpenChange }}` 撑起预览层，**不要**深层引入 `rc-image/lib/Preview`（antd v6 已不提供该路径）
+- 通过 `react-dom/client` 的 `createRoot` 挂载/卸载，**不要**使用已移除的 `ReactDOM.render` / `unmountComponentAtNode`
+- 卸载需延后到当前事件回调之后（`setTimeout(0)`），避免「渲染期间同步卸载 root」的 React 告警
+- 重复调用 `destroy()` 会被 `container.isConnected` 拦截
 
 ## 路由配置
 
@@ -376,6 +408,10 @@ message.success('操作成功');
 ## 注意事项
 
 - **Antd 类名前缀**：所有样式覆盖需使用 `.parsec-` 而非 `.ant-`
+- **React 版本**：运行时为 React 19，但 umi 内部固定 `react@18.3.1`，靠 `package.json` 的 `resolutions` 覆盖；升级 umi 后需回归验证，待 umi 官方支持 React 19 后可移除该覆盖
+- **Context 读取**：使用 React 19 的 `use(Context)`；`useContext` 仍可用但已非首选
+- **ReactDOM 命令式 API**：只使用 `react-dom/client` 的 `createRoot` / `root.unmount`，禁止 `ReactDOM.render`、`unmountComponentAtNode`（React 19 已移除）
+- **antd 内部模块**：不要深层引入 `rc-image/*`、`rc-menu/*` 等 antd 内部依赖路径，只使用 antd 公开 API。`AvatarDropdown` 里 `rc-menu/lib/interface` 的 `MenuInfo` 类型引入属待清理的历史遗留（antd v6 已改用 `@rc-component/menu`，且未公开导出该类型）
 - **ErrorBoundary**：全局错误边界已通过 RootProvider 注入，页面内部无需重复包裹
 - **OfflineBanner**：离线横幅已通过 RootProvider 全局注入，自动检测网络状态
 - **URL 查询参数**：使用 `qs.stringify()` 处理（Node.js 22+ 已移除 `node:querystring`）

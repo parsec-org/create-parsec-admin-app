@@ -4,14 +4,17 @@
 
 ## 技术栈
 
-| 类别 | 技术                                                                                       |
-|------|--------------------------------------------------------------------------------------------|
-| 框架 | [UmiJS v4](https://umijs.org/) (@umijs/max)                                                |
-| UI 库 | [Ant Design v6](https://ant.design/) + [Pro Components](https://procomponents.ant.design/) |
+| 类别     | 技术                                                                                       |
+| -------- | ------------------------------------------------------------------------------------------ |
+| 框架     | [UmiJS v4](https://umijs.org/) (@umijs/max)                                                |
+| UI 库    | [Ant Design v6](https://ant.design/) + [Pro Components](https://procomponents.ant.design/) |
+| React    | React 19（umi 内部固定 18.3.1，由 pnpm `resolutions` 覆盖到 19.x）                         |
 | 状态管理 | @umijs/max model + vstores                                                                 |
-| 语言 | TypeScript                                                                                 |
-| 样式 | Less + antd-style (css-in-js) + CSS Modules                                                |
-| 构建 | esbuild + granularChunks 分包                                                              |
+| 语言     | TypeScript                                                                                 |
+| 样式     | Less + antd-style (css-in-js) + CSS Modules                                                |
+| 构建     | esbuild + granularChunks 分包                                                              |
+
+> 运行时要求 **Node.js >= 22.12.0**（由 antd / pro-components / commitlint 的引擎约束决定）。
 
 ## 快速开始
 
@@ -19,7 +22,7 @@
 # 安装依赖
 pnpm install
 
-# 启动开发服务器（默认端口 8000，自动启用 mock）
+# 启动开发服务器（端口取自 .env 的 PORT，默认 3000，自动启用 mock）
 pnpm run dev
 
 # 启动 staging 开发服务器

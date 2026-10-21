@@ -279,6 +279,23 @@ import { CreateForm } from '@/components';
 </CreateForm>
 ```
 
+### previewImage（编程式图片预览）
+
+不依赖组件树、直接弹出图片预览，常用于上传前的图片校验或自定义触发按钮：
+
+```tsx
+import previewImage from '@/utils/previewImage';
+
+const { destroy } = previewImage({ url: 'https://example.com/a.png' });
+destroy(); // 手动关闭预览
+```
+
+实现约束（antd v6 + React 19）：
+
+- 通过 antd 公开的 `Image` + `preview={{ open, onOpenChange }}` 渲染预览层
+- 通过 `react-dom/client` 的 `createRoot` 挂载，不要用 `ReactDOM.render` / `unmountComponentAtNode`
+- 不要深层引入 `rc-image/lib/Preview`，antd v6 已不提供该路径
+
 ## 样式规范
 
 ### Less / CSS Modules
@@ -399,9 +416,31 @@ const { name, setName } = useModel('global');
 const { count, setCount } = useModel('counter');
 ```
 
+### 读取 Context（React 19 `use`）
+
+React 19 起可直接用 `use()` 读取 context，项目内统一使用该写法：
+
+```tsx
+import { useRootProvider } from '@/libs/context';
+
+const value = useRootProvider();
+```
+
+```tsx
+// 自定义 Hook 内部同理
+import { createContext, use } from 'react';
+
+const Context = createContext(null);
+export const useRootProvider = () => use(Context);
+```
+
+> `useContext` 在 React 19 中并未废弃，但本项目统一改用 `use()`。
+> `use()` 是 React 19 才引入的运行时 API，若 `react` 运行时被降级到 18.x 会直接报错。
+
 ## 相关文件
 
 - [src/components/index.ts](../src/components/index.ts) — 组件导出入口
 - [src/libs/context/index.ts](../src/libs/context/index.ts) — 全局 Context
+- [src/utils/previewImage.tsx](../src/utils/previewImage.tsx) — 编程式图片预览
 - [src/global.less](../src/global.less) — 全局样式
 - [src/global.style.ts](../src/global.style.ts) — 全局 css-in-js 样式

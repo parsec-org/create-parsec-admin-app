@@ -8,6 +8,7 @@ UmiJS v4 + Ant Design Pro Components 中后台管理系统模板
 
 - **框架**: UmiJS v4 (Max)
 - **UI 库**: Ant Design v6 + Pro Components
+- **React**: React 19（umi 内部固定 18.3.1，由 pnpm `resolutions` 覆盖）
 - **状态管理**: @umijs/max model + vstores
 - **语言**: TypeScript
 - **样式**: Less + antd-style (css-in-js) + CSS Modules
