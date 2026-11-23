@@ -1,7 +1,7 @@
 import services from '@/services/demo';
 import type {
   ActionType,
-  ProDescriptionsItemProps,
+  ProDescriptionsColumn,
 } from '@ant-design/pro-components';
 import {
   FooterToolbar,
@@ -92,14 +92,14 @@ const TableList: React.FC<unknown> = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
-  const actionRef = useRef<ActionType>();
+  const actionRef = useRef<ActionType>(null);
   const [row, setRow] = useState<API.UserInfo>();
   const [selectedRowsState, setSelectedRows] = useState<API.UserInfo[]>([]);
-  const columns: ProDescriptionsItemProps<API.UserInfo>[] = [
+  const columns: ProDescriptionsColumn<API.UserInfo>[] = [
     {
       title: '名称',
       dataIndex: 'name',
-      tip: '名称是唯一的 key',
+      tooltip: '名称是唯一的 key',
       formItemProps: {
         rules: [
           {

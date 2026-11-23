@@ -28,5 +28,7 @@ export default antfu({
     'ts/no-unnecessary-type-constraint': 'off',
     'ts/no-require-imports': 'off',
     'react-hooks/exhaustive-deps': 'off',
+    // @antfu/eslint-config v10 新增的强格式规则，与项目现有风格不一致，关闭以避免大面积无关改动
+    'antfu/reasonable-newline': 'off',
   },
 });

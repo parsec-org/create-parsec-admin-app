@@ -147,4 +147,10 @@ export default defineConfig({
   codeSplitting: {
     jsStrategy: 'granularChunks',
   },
+  utoopack: {
+    reactCompiler: {
+      compilationMode: 'infer',
+      target: '19',
+    },
+  },
 });

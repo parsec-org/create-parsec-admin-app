@@ -2,11 +2,18 @@ import { waitTime } from '@/utils';
 import { LockOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { Dropdown, Spin } from 'antd';
+import type { MenuProps } from 'antd';
 import type { ItemType } from 'antd/es/menu/interface';
 import NProgress from 'nprogress';
 import qs from 'qs';
-import type { MenuInfo } from 'rc-menu/lib/interface';
 import React, { useCallback } from 'react';
+
+/**
+ * 菜单点击事件参数。
+ * antd v6 已用 @rc-component/menu 替换 rc-menu，不再暴露 `rc-menu/lib/interface`，
+ * 这里从 antd 公开的 MenuProps 推导，避免依赖 rc 包内部路径。
+ */
+type MenuInfo = Parameters<NonNullable<MenuProps['onClick']>>[0];
 
 export interface GlobalHeaderRightProps {
   menu?: boolean;

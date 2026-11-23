@@ -32,7 +32,7 @@ export interface ExportExcelButtonProps<D = any, P = any> extends ButtonProps {
   params?: P;
 }
 
-export default <D extends unknown, P extends unknown>(props: ExportExcelButtonProps<D, P>) => {
+export default <D extends Record<string, any>, P extends unknown>(props: ExportExcelButtonProps<D, P>) => {
   const { fileName, children, columns, dataApi, params, ...otherProps } = props;
 
   const { loading, runAsync } = useRequest<D, P[]>(dataApi, {
@@ -54,13 +54,16 @@ export default <D extends unknown, P extends unknown>(props: ExportExcelButtonPr
         {
 
           sheetData: (list || []).map((cell: D) => {
+            // 泛型参数 D 的索引仅允许读取，落成普通对象视图后才能回写渲染结果
+            const row = cell as Record<string, any>;
             columns?.forEach(({ dataIndex, render }: ExcelColumns<D>, index) => {
-              // @ts-ignore
-              return (cell[dataIndex] = render
-                ? render(cell[dataIndex], cell, index, undefined, {
+              // dataIndex 允许 string | number | 数组，导出时统一按字符串键处理
+              const key = String(dataIndex);
+              row[key] = render
+                ? render(row[key], cell, index, undefined, {
                     type: undefined,
                   })
-                : cell[dataIndex]);
+                : row[key];
             });
             return cell;
           }),

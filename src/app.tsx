@@ -91,16 +91,21 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
   return {
     logo: <img src={logo} alt="parsec" />,
     title: 'parsec-admin-next',
+    // ProLayout 默认 minLength 为 2，面包屑项数少于 2 时会被整体隐藏，
+    // 导致一级路由页面（/home、/products 等）看不到面包屑，这里放开为 1
+    breadcrumbProps: {
+      minLength: 1,
+    },
     menu: {
       type: 'sub',
       collapsedShowGroupTitle: false,
       locale: true,
       request: async (params, defaultMenuData) => {
         // TODO: 如果需要根据角色处理菜单根据下面的代码进行操作即可
-        return Promise.resolve<MenuDataItem[]>([...defaultMenuData]);
+        return Promise.resolve([...defaultMenuData]);
         // 只有超级管理员才返回默认的菜单数据
         if (initialState?.currentUser?.adminName === 'admin') {
-          return Promise.resolve<MenuDataItem[]>([...defaultMenuData]);
+          return Promise.resolve([...defaultMenuData]);
         }
         const menuAuth = await getAuthRules();
         // 这样操作只是为了继续使用 umi 提供的图标映射
@@ -109,7 +114,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
           = menuAuth.map((role) => {
             return defaultMenuData.find(x => x.path === role.route) as MenuDataItem;
           }) || [];
-        return Promise.resolve<MenuDataItem[]>([
+        return Promise.resolve([
           ...currentUserMenu.concat([
             meRoute,
             {
